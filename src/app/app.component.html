@@ -1,0 +1,682 @@
+<table>
+  <tr>
+    <td>ArrayList</td>
+    <td><a href="#" (click)="ArrayList()">string</a>&nbsp;</td>
+    <td><a href="#" (click)="ArrayListAllFields()">PetStoreProduct compare all fields</a>&nbsp;</td>
+    <td><a href="#" (click)="ArrayListOneField()">PetStoreProduct compare one field</a>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>LinkedList</td>
+    <td><a href="#" (click)="LinkedList()">string</a>&nbsp;</td>
+    <td><a href="#" (click)="LinkedListAllFields()">PetStoreProduct compare all fields</a>&nbsp;</td>
+    <td><a href="#" (click)="LinkedListOneField()">PetStoreProduct compare one field</a>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>HashSet</td>
+    <td><a href="#" (click)="HashSet()">string</a>&nbsp;</td>
+    <td><a href="#" (click)="HashSetAllFields()">PetStoreProduct compare all fields</a>&nbsp;</td>
+    <td><a href="#" (click)="HashSetOneField()">PetStoreProduct compare one field</a>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>TreeSet</td>
+    <td><a href="#" (click)="TreeSet()">string</a>&nbsp;</td>
+    <td><a href="#" (click)="TreeSetAllFields()">PetStoreProduct compare all fields</a>&nbsp;</td>
+    <td><a href="#" (click)="TreeSetOneField()">PetStoreProduct compare one field</a>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>HashMap</td>
+    <td><a href="#" (click)="HashMap()">string, string</a>&nbsp;</td>
+    <td colspan=2>&nbsp; Very similar to the HashSet examples..... you'll see :) &nbsp;</td>
+  </tr>
+  <tr>
+    <td>TreeMap</td>
+    <td><a href="#" (click)="TreeMap()">string, string</a>&nbsp;</td>
+    <td colspan=2>&nbsp; Very similar to the TreeSet examples..... you'll see :) &nbsp;</td>
+  </tr>
+</table>
+<br>
+Source code for this app is located at <a href="https://github.com/larrydiamond/typescriptcollectionsframework-Demo-For-Angular4">https://github.com/larrydiamond/typescriptcollectionsframework-Demo-For-Angular4</a>
+<br>
+
+<p *ngIf="active=='ArrayList'">
+  ArrayList compare on a string:<br>
+  <li *ngFor="let str of alData"><button (click)="removeArrayListEntry(str);">{{str}}</button></li>
+  <br>
+  <input #aladd type=text placeholder="add">
+  <button (click)="addArrayList(aladd.value);aladd.value=''">Add</button>
+
+  <br>  <br>  <br>  <br>
+  An ArrayList is a List backed by a resizeable array.   Items added to an ArrayList will be added at the end of the ArrayList.<br>
+  Click on an item to remove it from the ArrayList or enter a value and click Add to add it to the ArrayList.<br><br>
+  <a href="https://larrydiamond.github.io/typescriptcollectionsframework/typedoc/classes/_src_arraylist_.arraylist.html">ArrayList Documentation</a><br><br>
+
+  alData:ArrayList&lt;string> = new ArrayList&lt;string>(new AllFieldCollectable&lt;string>());<br>
+  this.alData.add ("Cat");<br>
+  this.alData.add ("Squirrel");<br>
+  this.alData.add ("Dog");<br>
+  this.alData.remove ("OtherElement");<br>
+  for (let iter:JIterator&lt;string> = this.alData.iterator(); iter.hasNext(); ) &#123; <br>
+    &nbsp;&nbsp;let ostr:string = iter.next();<br>
+    &nbsp;&nbsp;console.log (ostr);<br>
+  &#125;<br>
+  <br>
+  How to iterate over an Arraylist in the HTML template for an Angular Component:<br>
+  &lt;li *ngFor="let str of alData">&lt;button (click)="removeArrayListEntry(str);">&#123;&#123;str&#125;&#125;&lt;/button>&lt;/li>
+
+</p>
+
+<p *ngIf="active=='LinkedList'">
+  LinkedList compare on a string:<br>
+  <li *ngFor="let str of llData"><button (click)="removeLinkedListEntry(str);">{{str}}</button></li>
+  <br>
+  <input #lladd type=text placeholder="add">
+  <button (click)="addLinkedList(lladd.value);lladd.value=''">Add</button>
+
+  <br>  <br>  <br>  <br>
+  A LinkedList is a List backed by a Doubly-linked list.   Items added to a LinkedList will be added at the end of the LinkedList.<br>
+  Click on an item to remove it from the LinkedList or enter a value and click Add to add it to the LinkedList.<br><br>
+  <a href="https://larrydiamond.github.io/typescriptcollectionsframework/typedoc/classes/_src_linkedlist_.linkedlist.html">LinkedList Documentation</a><br><br>
+
+  llData:LinkedList&lt;string> = new LinkedList&lt;string>(new AllFieldCollectable&lt;string>());<br>
+  this.llData.add ("Cat");<br>
+  this.llData.add ("Squirrel");<br>
+  this.llData.add ("Dog");<br>
+  this.llData.remove ("OtherElement");<br>
+  for (let iter:JIterator&lt;string> = this.llData.iterator(); iter.hasNext(); ) &#123; <br>
+    &nbsp;&nbsp;let ostr:string = iter.next();<br>
+    &nbsp;&nbsp;console.log (ostr);<br>
+  &#125;<br>
+  <br>
+  How to iterate over a LinkedList in the HTML template for an Angular Component:<br>
+  &lt;li *ngFor="let str of llData">&lt;button (click)="removeLinkedListEntry(str);">&#123;&#123;str&#125;&#125;&lt;/button>&lt;/li>
+</p>
+
+<p *ngIf="active=='HashSet'">
+  HashSet compare on a string:<br>
+  <li *ngFor="let str of hsData"><button (click)="removeHashSetEntry(str);">{{str}}</button></li>
+  <br>
+  <input #hsadd type=text placeholder="add">
+  <button (click)="addHashSet(hsadd.value);hsadd.value=''">Add</button>
+
+  <br>  <br>  <br>  <br>
+  A HashSet is a Set backed by a HashMap.   Duplicates are not permitted.   There are no guarantees as to the iteration order of the set.   Set order is not guaranteed to remain constant over time.<br>
+  Click on an item to remove it from the HashSet or enter a value and click Add to add it to the HashSet.<br><br>
+  <a href="https://larrydiamond.github.io/typescriptcollectionsframework/typedoc/classes/_src_hashset_.hashset.html">HashSet Documentation</a><br><br>
+
+  hsData:HashSet&lt;string> = new HashSet&lt;string>(new AllFieldHashable&lt;string>());<br>
+  this.hsData.add ("Cat");<br>
+  this.hsData.add ("Squirrel");<br>
+  this.hsData.add ("Dog");<br>
+  this.hsData.remove ("OtherElement");<br>
+  for (let iter:JIterator&lt;string> = this.hsData.iterator(); iter.hasNext(); ) &#123; <br>
+    &nbsp;&nbsp;let ostr:string = iter.next();<br>
+    &nbsp;&nbsp;console.log (ostr);<br>
+  &#125;<br>
+  <br>
+  How to iterate over a HashSet in the HTML template for an Angular Component:<br>
+  &lt;li *ngFor="let str of hsData">&lt;button (click)="removeHashSetEntry(str);">&#123;&#123;str&#125;&#125;&lt;/button>&lt;/li>
+</p>
+
+<p *ngIf="active=='TreeSet'">
+  TreeSet compare using string Comparator<br>
+  <li *ngFor="let str of tsData"><button (click)="removeTreeSetEntry(str);">{{str}}</button></li>
+  <br>
+  <input #tsadd type=text placeholder="add">
+  <button (click)="addTreeSet(tsadd.value);tsadd.value=''">Add</button>
+
+  <br>  <br>  <br>  <br>
+  A TreeSet is a Set backed by a TreeMap.   Duplicates are not permitted.   The order of the elements is based on the Comparator provided to it at construction.<br>
+  Click on an item to remove it from the TreeSet or enter a value and click Add to add it to the TreeSet.<br><br>
+  <a href="https://larrydiamond.github.io/typescriptcollectionsframework/typedoc/classes/_src_treeset_.treeset.html">TreeSet Documentation</a><br><br>
+
+  tsData:TreeSet&lt;string> = new TreeSet&lt;string>(Collections.getStringComparator());<br>
+  this.tsData.add ("Cat");<br>
+  this.tsData.add ("Squirrel");<br>
+  this.tsData.add ("Dog");<br>
+  this.tsData.remove ("OtherElement");<br>
+  for (let iter:JIterator&lt;string> = this.tsData.iterator(); iter.hasNext(); ) &#123; <br>
+    &nbsp;&nbsp;let ostr:string = iter.next();<br>
+    &nbsp;&nbsp;console.log (ostr);<br>
+  &#125;<br>
+  <br>
+  How to iterate over a TreeSet in the HTML template for an Angular Component:<br>
+  &lt;li *ngFor="let str of tsData">&lt;button (click)="removeTreeSetEntry(str);">&#123;&#123;str&#125;&#125;&lt;/button>&lt;/li>
+
+</p>
+
+
+<p *ngIf="active=='ArrayListAllFields'">
+  ArrayList compare on all fields:<br>
+  <li *ngFor="let psp of alAllData"><button (click)="removeArrayListAllEntry(psp);">{{psp.getSku()}} - {{psp.getName()}}</button></li>
+  <br>
+  <input #alalladdsku type=text placeholder="sku">
+  <input #alalladdname type=text placeholder="name">
+  <button (click)="addArrayListAll(alalladdsku.value, alalladdname.value);alalladdsku.value='';alalladdname.value=''">Add</button>
+
+  <br>  <br>  <br>  <br>
+  An ArrayList is a List backed by a resizeable array.   Items added to an ArrayList will be added at the end of the ArrayList.<br>
+  Click on an item to remove it from the ArrayList or enter a sku and a name and click Add to add it to the ArrayList.<br><br>
+  <a href="https://larrydiamond.github.io/typescriptcollectionsframework/typedoc/classes/_src_arraylist_.arraylist.html">ArrayList Documentation</a><br><br>
+
+  alAllData:ArrayList&lt;PetStoreProduct> = new ArrayList&lt;PetStoreProduct>(new AllFieldCollectable&lt;PetStoreProduct>());<br>
+  this.alAllData.add (new PetStoreProduct("ABCDE", "Bird Seed"));<br>
+  this.alAllData.add (new PetStoreProduct("FGHIJ", "Cat Food"));<br>
+  this.alAllData.add (new PetStoreProduct("KLMNO", "Dog Food"));<br>
+  this.alAllData.remove (new PetStoreProduct("ZZZZZ", "Not there anymore"));<br>
+  for (let iter:JIterator&lt;PetStoreProduct> = this.alAllData.iterator(); iter.hasNext(); ) &#123; <br>
+    &nbsp;&nbsp;let psp:PetStoreProduct = iter.next();<br>
+    &nbsp;&nbsp;console.log (psp.getSku() - psp.getName());<br>
+  &#125;<br>
+  <br>
+  How to iterate over an Arraylist in the HTML template for an Angular Component:<br>
+  &lt;li *ngFor="let pspa of alAllData">&lt;button (click)="removeArrayListAllEntry(pspa);">&#123;&#123;pspa.getSku() } } - &#123;&#123;pspa.getName() } } &lt;/button>&lt;/li>
+
+  <br>  <br>
+  export class PetStoreProduct &#123; // note no methods were added to this class for the framework to support it<br>
+    &nbsp;&nbsp;private sku:string;<br>
+    &nbsp;&nbsp;public getSku():string &#123; return this.sku; }<br>
+    &nbsp;&nbsp;public setSku(newsku:string) &#123; this.sku = newsku; }<br>
+<br>
+    &nbsp;&nbsp;private name:string;<br>
+    &nbsp;&nbsp;public getName():string &#123; return this.name; }<br>
+    &nbsp;&nbsp;public setName(newname:string) &#123; this.name = newname; }<br>
+<br>
+    &nbsp;&nbsp;constructor(isku:string, iname:string) &#123;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;  this.sku = isku;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;  this.name = iname;<br>
+    &nbsp;&nbsp;}<br>
+  }<br>
+</p>
+
+
+<p *ngIf="active=='LinkedListAllFields'">
+    LinkedList compare on all fields:<br>
+    <li *ngFor="let psp of llAllData"><button (click)="removeLinkedListAllEntry(psp);">{{psp.getSku()}} - {{psp.getName()}}</button></li>
+    <br>
+    <input #llalladdsku type=text placeholder="sku">
+    <input #llalladdname type=text placeholder="name">
+    <button (click)="addLinkedListAll(llalladdsku.value, llalladdname.value);llalladdsku.value='';llalladdname.value=''">Add</button>
+
+    <br>  <br>  <br>  <br>
+    A LinkedList is a List backed by a Doubly-linked list.   Items added to a LinkedList will be added at the end of the LinkedList.<br>
+    Click on an item to remove it from the LinkedList or enter a sku and a name and click Add to add it to the LinkedList.<br><br>
+    <a href="https://larrydiamond.github.io/typescriptcollectionsframework/typedoc/classes/_src_linkedlist_.linkedlist.html">LinkedList Documentation</a><br><br>
+
+    llAllData:LinkedList&lt;PetStoreProduct> = new LinkedList&lt;PetStoreProduct>(new AllFieldCollectable&lt;PetStoreProduct>());<br>
+    this.llAllData.add (new PetStoreProduct("ABCDE", "Bird Seed"));<br>
+    this.llAllData.add (new PetStoreProduct("FGHIJ", "Cat Food"));<br>
+    this.llAllData.add (new PetStoreProduct("KLMNO", "Dog Food"));<br>
+    this.llAllData.remove (new PetStoreProduct("ZZZZZ", "Not there anymore"));<br>
+    for (let iter:JIterator&lt;PetStoreProduct> = this.llAllData.iterator(); iter.hasNext(); ) &#123; <br>
+    &nbsp;&nbsp;let psp:PetStoreProduct = iter.next();<br>
+    &nbsp;&nbsp;console.log (psp.getSku() - psp.getName());<br>
+    &#125;<br>
+    <br>
+    How to iterate over an LinkedList in the HTML template for an Angular Component:<br>
+    &lt;li *ngFor="let pspa of llAllData">&lt;button (click)="removeLinkedListAllEntry(pspa);">&#123;&#123;pspa.getSku() } } - &#123;&#123;pspa.getName() } } &lt;/button>&lt;/li>
+
+    <br>  <br>
+    export class PetStoreProduct &#123; // note no methods were added to this class for the framework to support it<br>
+      &nbsp;&nbsp;private sku:string;<br>
+      &nbsp;&nbsp;public getSku():string &#123; return this.sku; }<br>
+      &nbsp;&nbsp;public setSku(newsku:string) &#123; this.sku = newsku; }<br>
+    <br>
+      &nbsp;&nbsp;private name:string;<br>
+      &nbsp;&nbsp;public getName():string &#123; return this.name; }<br>
+      &nbsp;&nbsp;public setName(newname:string) &#123; this.name = newname; }<br>
+    <br>
+      &nbsp;&nbsp;constructor(isku:string, iname:string) &#123;<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;  this.sku = isku;<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;  this.name = iname;<br>
+      &nbsp;&nbsp;}<br>
+    }<br>
+</p>
+
+<p *ngIf="active=='HashSetAllFields'">
+  HashSet compare on all fields:<br>
+  <li *ngFor="let psp of hsAllData"><button (click)="removeHashSetAllEntry(psp);">{{psp.getSku()}} - {{psp.getName()}}</button></li>
+  <br>
+  <input #hsalladdsku type=text placeholder="sku">
+  <input #hsalladdname type=text placeholder="name">
+  <button (click)="addHashSetAll(hsalladdsku.value, hsalladdname.value);hsalladdsku.value='';hsalladdname.value=''">Add</button>
+
+  <br>  <br>  <br>  <br>
+  A HashSet is a Set backed by a HashMap.   Duplicates are not permitted.   There are no guarantees as to the iteration order of the set.   Set order is not guaranteed to remain constant over time.<br>
+  Click on an item to remove it from the HashSet or enter a sku and a name and and click Add to add it to the HashSet.<br><br>
+  <a href="https://larrydiamond.github.io/typescriptcollectionsframework/typedoc/classes/_src_hashset_.hashset.html">HashSet Documentation</a><br><br>
+
+  hsAllData:HashSet&lt;PetStoreProduct> = new HashSet&lt;PetStoreProduct>(new AllFieldHashable&lt;PetStoreProduct>());<br>
+  this.hsAllData.add (new PetStoreProduct("ABCDE", "Bird Seed"));<br>
+  this.hsAllData.add (new PetStoreProduct("FGHIJ", "Cat Food"));<br>
+  this.hsAllData.add (new PetStoreProduct("KLMNO", "Dog Food"));<br>
+  this.hsAllData.remove (new PetStoreProduct("ZZZZZ", "Not there anymore"));<br>
+  for (let iter:JIterator&lt;PetStoreProduct> = this.hsAllData.iterator(); iter.hasNext(); ) &#123; <br>
+  &nbsp;&nbsp;let psp:PetStoreProduct = iter.next();<br>
+  &nbsp;&nbsp;console.log (psp.getSku() - psp.getName());<br>
+  &#125;<br>
+  <br>
+  How to iterate over an HashSet in the HTML template for an Angular Component:<br>
+  &lt;li *ngFor="let pspa of hsAllData">&lt;button (click)="removeHashSetAllEntry(pspa);">&#123;&#123;pspa.getSku() } } - &#123;&#123;pspa.getName() } } &lt;/button>&lt;/li>
+
+  <br>  <br>
+  export class PetStoreProduct &#123; // note no methods were added to this class for the framework to support it<br>
+    &nbsp;&nbsp;private sku:string;<br>
+    &nbsp;&nbsp;public getSku():string &#123; return this.sku; }<br>
+    &nbsp;&nbsp;public setSku(newsku:string) &#123; this.sku = newsku; }<br>
+  <br>
+    &nbsp;&nbsp;private name:string;<br>
+    &nbsp;&nbsp;public getName():string &#123; return this.name; }<br>
+    &nbsp;&nbsp;public setName(newname:string) &#123; this.name = newname; }<br>
+  <br>
+    &nbsp;&nbsp;constructor(isku:string, iname:string) &#123;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;  this.sku = isku;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;  this.name = iname;<br>
+    &nbsp;&nbsp;}<br>
+  }<br>
+</p>
+
+<p *ngIf="active=='TreeSetAllFields'">
+  TreeSet compare all on fields<br>
+  <li *ngFor="let psp of tsAllData"><button (click)="removeTreeSetAllEntry(psp);">{{psp.getSku()}} - {{psp.getName()}}</button></li>
+  <br>
+  <input #tsalladdsku type=text placeholder="sku">
+  <input #tsalladdname type=text placeholder="name">
+  <button (click)="addTreeSetAll(tsalladdsku.value, tsalladdname.value);tsalladdsku.value='';tsalladdname.value=''">Add</button>
+
+  <br>  <br>  <br>  <br>
+  A TreeSet is a Set backed by a TreeMap.   Duplicates are not permitted.   The order of the elements is based on the Comparator provided to it at construction.<br>
+  Click on an item to remove it from the TreeSet or enter a value and click Add to add it to the TreeSet.<br><br>
+  <a href="https://larrydiamond.github.io/typescriptcollectionsframework/typedoc/classes/_src_treeset_.treeset.html">TreeSet Documentation</a><br><br>
+
+  tsAllData:TreeSet&lt;string> = new TreeSet&lt;PetStoreProduct>(new PetStoreProductAllFieldsComparator());<br>
+  this.tsAllData.add (new PetStoreProduct("ABCDE", "Bird Seed"));<br>
+  this.tsAllData.add (new PetStoreProduct("FGHIJ", "Cat Food"));<br>
+  this.tsAllData.add (new PetStoreProduct("KLMNO", "Dog Food"));<br>
+  this.tsAllData.remove (new PetStoreProduct("ZZZZZ", "Not there anymore"));<br>
+  for (let iter:JIterator&lt;PetStoreProduct> = this.tsAllData.iterator(); iter.hasNext(); ) &#123; <br>
+  &nbsp;&nbsp;let psp:PetStoreProduct = iter.next();<br>
+  &nbsp;&nbsp;console.log (psp.getSku() - psp.getName());<br>
+  &#125;<br>
+  <br>
+  How to iterate over a TreeSet in the HTML template for an Angular Component:<br>
+  &lt;li *ngFor="let pspa of tsAllData">&lt;button (click)="removeTreeSetAllEntry(pspa);">&#123;&#123;pspa.getSku() } } - &#123;&#123;pspa.getName() } } &lt;/button>&lt;/li><br>
+<br>
+  export class PetStoreProductAllFieldsComparator implements Comparator&lt;PetStoreProduct> &#123;<br>
+  &nbsp;&nbsp;  compare(o1:PetStoreProduct, o2:PetStoreProduct) : number &#123;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    if (o1 === o2)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      return 0;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;      if (o1 === undefined)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      return -1;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    if (o1 === null)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      return -1;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    if (o2 === undefined)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      return 1;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    if (o2 === null)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      return 1;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    if (o1.getSku() < o2.getSku())<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      return -1;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    if (o1.getSku() > o2.getSku())<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      return 1;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    if (o1.getName() < o2.getName())<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      return -1;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    return 1;<br>
+  &nbsp;&nbsp;  }<br>
+  }<br>
+</p>
+
+<p *ngIf="active=='ArrayListOneField'">
+  ArrayList compare on one field:<br>
+  <li *ngFor="let psp of alOneData"><button (click)="removeArrayListOneEntry(psp);">{{psp.getSku()}} - {{psp.getName()}}</button></li>
+  <br>
+  <input #aloneaddsku type=text placeholder="sku">
+  <input #aloneaddname type=text placeholder="name">
+  <button (click)="addArrayListOne(aloneaddsku.value, aloneaddname.value);aloneaddsku.value='';aloneaddname.value=''">Add</button>
+
+  <br>  <br>  <br>  <br>
+  An ArrayList is a List backed by a resizeable array.   Items added to an ArrayList will be added at the end of the ArrayList.<br>
+  Click on an item to remove it from the ArrayList or enter a sku and a name and click Add to add it to the ArrayList.<br><br>
+  <a href="https://larrydiamond.github.io/typescriptcollectionsframework/typedoc/classes/_src_arraylist_.arraylist.html">ArrayList Documentation</a><br><br>
+
+  alOneData:ArrayList&lt;PetStoreProduct> = new ArrayList&lt;PetStoreProduct>(new PetStoreProductSkuCollectable());<br>
+  this.alOneData.add (new PetStoreProduct("ABCDE", "Bird Seed"));<br>
+  this.alOneData.add (new PetStoreProduct("FGHIJ", "Cat Food"));<br>
+  this.alOneData.add (new PetStoreProduct("KLMNO", "Dog Food"));<br>
+  this.alOneData.remove (new PetStoreProduct("ZZZZZ", "Not there anymore"));<br>
+  for (let iter:JIterator&lt;PetStoreProduct> = this.alOneData.iterator(); iter.hasNext(); ) &#123; <br>
+    &nbsp;&nbsp;let psp:PetStoreProduct = iter.next();<br>
+    &nbsp;&nbsp;console.log (psp.getSku() - psp.getName());<br>
+  &#125;<br>
+  <br>
+  How to iterate over an Arraylist in the HTML template for an Angular Component:<br>
+  &lt;li *ngFor="let pspa of alOneData">&lt;button (click)="removeArrayListOneEntry(pspa);">&#123;&#123;pspa.getSku() } } - &#123;&#123;pspa.getName() } } &lt;/button>&lt;/li>
+
+  <br>  <br>
+  export class PetStoreProduct &#123; // note no methods were added to this class for the framework to support it<br>
+    &nbsp;&nbsp;private sku:string;<br>
+    &nbsp;&nbsp;public getSku():string &#123; return this.sku; }<br>
+    &nbsp;&nbsp;public setSku(newsku:string) &#123; this.sku = newsku; }<br>
+<br>
+    &nbsp;&nbsp;private name:string;<br>
+    &nbsp;&nbsp;public getName():string &#123; return this.name; }<br>
+    &nbsp;&nbsp;public setName(newname:string) &#123; this.name = newname; }<br>
+<br>
+    &nbsp;&nbsp;constructor(isku:string, iname:string) &#123;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;  this.sku = isku;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;  this.name = iname;<br>
+    &nbsp;&nbsp;}<br>
+  }<br>
+  <br>
+  export class PetStoreProductSkuCollectable implements Collectable&lt;PetStoreProduct> &#123;<br>
+  &nbsp;&nbsp;equals (instance1 : PetStoreProduct, instance2 : PetStoreProduct) : boolean &#123;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;if (instance1 === undefined) &#123;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (instance2 === undefined) &#123;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else &#123;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    if (instance1 === null) &#123;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      if (instance2 === null) &#123;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        return true;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      } else &#123;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        return false;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      }<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    }<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    if ((instance2 === null) || (instance2 === undefined)) &#123;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      return false;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    }<br>
+<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    if (instance1.getSku() === instance2.getSku()) &#123;  // what we're really comparing here<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      return true;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    }<br>
+<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    return false;<br>
+  &nbsp;&nbsp;  }<br>
+  }<br>
+
+
+</p>
+
+
+<p *ngIf="active=='LinkedListOneField'">
+    LinkedList compare on one field:<br>
+    <li *ngFor="let psp of llOneData"><button (click)="removeLinkedListOneEntry(psp);">{{psp.getSku()}} - {{psp.getName()}}</button></li>
+    <br>
+    <input #llOneaddsku type=text placeholder="sku">
+    <input #llOneaddname type=text placeholder="name">
+    <button (click)="addLinkedListOne(llOneaddsku.value, llOneaddname.value);llOneaddsku.value='';llOneaddname.value=''">Add</button>
+
+    <br>  <br>  <br>  <br>
+    A LinkedList is a List backed by a Doubly-linked list.   Items added to a LinkedList will be added at the end of the LinkedList.<br>
+    Click on an item to remove it from the LinkedList or enter a sku and a name and click Add to add it to the LinkedList.<br><br>
+    <a href="https://larrydiamond.github.io/typescriptcollectionsframework/typedoc/classes/_src_linkedlist_.linkedlist.html">LinkedList Documentation</a><br><br>
+
+    llOneData:LinkedList&lt;PetStoreProduct> = new LinkedList&lt;PetStoreProduct>(new PetStoreProductSkuCollectable());<br>
+    this.llOneData.add (new PetStoreProduct("ABCDE", "Bird Seed"));<br>
+    this.llOneData.add (new PetStoreProduct("FGHIJ", "Cat Food"));<br>
+    this.llOneData.add (new PetStoreProduct("KLMNO", "Dog Food"));<br>
+    this.llOneData.remove (new PetStoreProduct("ZZZZZ", "Not there anymore"));<br>
+    for (let iter:JIterator&lt;PetStoreProduct> = this.llOneData.iterator(); iter.hasNext(); ) &#123; <br>
+    &nbsp;&nbsp;let psp:PetStoreProduct = iter.next();<br>
+    &nbsp;&nbsp;console.log (psp.getSku() - psp.getName());<br>
+    &#125;<br>
+    <br>
+    How to iterate over an LinkedList in the HTML template for an Angular Component:<br>
+    &lt;li *ngFor="let pspa of llOneData">&lt;button (click)="removeLinkedListOneEntry(pspa);">&#123;&#123;pspa.getSku() } } - &#123;&#123;pspa.getName() } } &lt;/button>&lt;/li>
+
+    <br>  <br>
+    export class PetStoreProduct &#123; // note no methods were added to this class for the framework to support it<br>
+      &nbsp;&nbsp;private sku:string;<br>
+      &nbsp;&nbsp;public getSku():string &#123; return this.sku; }<br>
+      &nbsp;&nbsp;public setSku(newsku:string) &#123; this.sku = newsku; }<br>
+    <br>
+      &nbsp;&nbsp;private name:string;<br>
+      &nbsp;&nbsp;public getName():string &#123; return this.name; }<br>
+      &nbsp;&nbsp;public setName(newname:string) &#123; this.name = newname; }<br>
+    <br>
+      &nbsp;&nbsp;constructor(isku:string, iname:string) &#123;<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;  this.sku = isku;<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;  this.name = iname;<br>
+      &nbsp;&nbsp;}<br>
+    }<br>
+    <br>
+    export class PetStoreProductSkuCollectable implements Collectable&lt;PetStoreProduct> &#123;<br>
+    &nbsp;&nbsp;equals (instance1 : PetStoreProduct, instance2 : PetStoreProduct) : boolean &#123;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;if (instance1 === undefined) &#123;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (instance2 === undefined) &#123;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else &#123;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;    if (instance1 === null) &#123;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      if (instance2 === null) &#123;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        return true;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      } else &#123;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        return false;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      }<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;    }<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;    if ((instance2 === null) || (instance2 === undefined)) &#123;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      return false;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;    }<br>
+  <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;    if (instance1.getSku() === instance2.getSku()) &#123;  // what we're really comparing here<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      return true;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;    }<br>
+  <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;    return false;<br>
+    &nbsp;&nbsp;  }<br>
+    }<br>
+</p>
+
+<p *ngIf="active=='HashSetOneField'">
+  HashSet compare on one field:<br>
+  <li *ngFor="let psp of hsOneData"><button (click)="removeHashSetOneEntry(psp);">{{psp.getSku()}} - {{psp.getName()}}</button></li>
+  <br>
+  <input #hsOneaddsku type=text placeholder="sku">
+  <input #hsOneaddname type=text placeholder="name">
+  <button (click)="addHashSetOne(hsOneaddsku.value, hsOneaddname.value);hsOneaddsku.value='';hsOneaddname.value=''">Add</button>
+
+  <br>  <br>  <br>  <br>
+  A HashSet is a Set backed by a HashMap.   Duplicates are not permitted.   There are no guarantees as to the iteration order of the set.   Set order is not guaranteed to remain constant over time.<br>
+  Click on an item to remove it from the HashSet or enter a sku and a name and and click Add to add it to the HashSet.<br><br>
+  <a href="https://larrydiamond.github.io/typescriptcollectionsframework/typedoc/classes/_src_hashset_.hashset.html">HashSet Documentation</a><br><br>
+
+  hsOneData:HashSet&lt;PetStoreProduct> = new HashSet&lt;PetStoreProduct>(new PetStoreProductSkuHashable());<br>
+  this.hsOneData.add (new PetStoreProduct("ABCDE", "Bird Seed"));<br>
+  this.hsOneData.add (new PetStoreProduct("FGHIJ", "Cat Food"));<br>
+  this.hsOneData.add (new PetStoreProduct("KLMNO", "Dog Food"));<br>
+  this.hsOneData.remove (new PetStoreProduct("ZZZZZ", "Not there anymore"));<br>
+  for (let iter:JIterator&lt;PetStoreProduct> = this.hsOneData.iterator(); iter.hasNext(); ) &#123; <br>
+  &nbsp;&nbsp;let psp:PetStoreProduct = iter.next();<br>
+  &nbsp;&nbsp;console.log (psp.getSku() - psp.getName());<br>
+  &#125;<br>
+  <br>
+  How to iterate over an HashSet in the HTML template for an Angular Component:<br>
+  &lt;li *ngFor="let pspa of hsOneData">&lt;button (click)="removeHashSetOneEntry(pspa);">&#123;&#123;pspa.getSku() } } - &#123;&#123;pspa.getName() } } &lt;/button>&lt;/li>
+
+  <br>  <br>
+  export class PetStoreProduct &#123; // note no methods were added to this class for the framework to support it<br>
+    &nbsp;&nbsp;private sku:string;<br>
+    &nbsp;&nbsp;public getSku():string &#123; return this.sku; }<br>
+    &nbsp;&nbsp;public setSku(newsku:string) &#123; this.sku = newsku; }<br>
+  <br>
+    &nbsp;&nbsp;private name:string;<br>
+    &nbsp;&nbsp;public getName():string &#123; return this.name; }<br>
+    &nbsp;&nbsp;public setName(newname:string) &#123; this.name = newname; }<br>
+  <br>
+    &nbsp;&nbsp;constructor(isku:string, iname:string) &#123;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;  this.sku = isku;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;  this.name = iname;<br>
+    &nbsp;&nbsp;}<br>
+  }<br>
+<br>
+  export class PetStoreProductSkuHashable implements Hashable&lt;PetStoreProduct> &#123;<br>
+  &nbsp;&nbsp;  equals (instance1 : PetStoreProduct, instance2 : PetStoreProduct) : boolean &#123;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    if (instance1 === undefined) &#123;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      if (instance2 === undefined) &#123;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        return true;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      } else &#123;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        return false;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      }<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    }<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    if (instance1 === null) &#123;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      if (instance2 === null) &#123;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        return true;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      } else &#123;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        return false;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      }<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    }<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    if ((instance2 === null) || (instance2 === undefined)) &#123;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      return false;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    }<br>
+<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    if (instance1.getSku() === instance2.getSku()) &#123;  // what we're really comparing here<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      return true;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    }<br>
+<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    return false;<br>
+  &nbsp;&nbsp;  };<br>
+  &nbsp;&nbsp;  hashCode (o:PetStoreProduct) : number &#123;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    if (o === undefined) &#123;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      return 0;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    }<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    if (o === null) &#123;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      return 0;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    }<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    return Collections.getHashCodeForString(o.getSku());<br>
+  &nbsp;&nbsp;  };<br>
+  }<br>
+
+</p>
+
+<p *ngIf="active=='TreeSetOneField'">
+  TreeSet compare all one field<br>
+  <li *ngFor="let psp of tsOneData"><button (click)="removeTreeSetOneEntry(psp);">{{psp.getSku()}} - {{psp.getName()}}</button></li>
+  <br>
+  <input #tsoneaddsku type=text placeholder="sku">
+  <input #tsoneaddname type=text placeholder="name">
+  <button (click)="addTreeSetOne(tsoneaddsku.value, tsoneaddname.value);tsoneaddsku.value='';tsoneaddname.value=''">Add</button>
+
+  <br>  <br>  <br>  <br>
+  A TreeSet is a Set backed by a TreeMap.   Duplicates are not permitted.   The order of the elements is based on the Comparator provided to it at construction.<br>
+  Click on an item to remove it from the TreeSet or enter a value and click Add to add it to the TreeSet.<br><br>
+  <a href="https://larrydiamond.github.io/typescriptcollectionsframework/typedoc/classes/_src_treeset_.treeset.html">TreeSet Documentation</a><br><br>
+
+  tsOneData:TreeSet&lt;string> = new TreeSet&lt;PetStoreProduct>(new PetStoreProductOneFieldComparator());<br>
+  this.tsOneData.add (new PetStoreProduct("ABCDE", "Bird Seed"));<br>
+  this.tsOneData.add (new PetStoreProduct("FGHIJ", "Cat Food"));<br>
+  this.tsOneData.add (new PetStoreProduct("KLMNO", "Dog Food"));<br>
+  this.tsOneData.remove (new PetStoreProduct("ZZZZZ", "Not there anymore"));<br>
+  for (let iter:JIterator&lt;PetStoreProduct> = this.tsOneData.iterator(); iter.hasNext(); ) &#123; <br>
+  &nbsp;&nbsp;let psp:PetStoreProduct = iter.next();<br>
+  &nbsp;&nbsp;console.log (psp.getSku() - psp.getName());<br>
+  &#125;<br>
+  <br>
+  How to iterate over a TreeSet in the HTML template for an Angular Component:<br>
+  &lt;li *ngFor="let pspa of tsOneData">&lt;button (click)="removeTreeSetOneEntry(pspa);">&#123;&#123;pspa.getSku() } } - &#123;&#123;pspa.getName() } } &lt;/button>&lt;/li><br>
+<br>
+  export class PetStoreProductOneFieldComparator implements Comparator&lt;PetStoreProduct> &#123;<br>
+  &nbsp;&nbsp;  compare(o1:PetStoreProduct, o2:PetStoreProduct) : number &#123;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    if (o1 === o2)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      return 0;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;      if (o1 === undefined)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      return -1;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    if (o1 === null)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      return -1;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    if (o2 === undefined)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      return 1;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    if (o2 === null)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      return 1;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    if (o1.getSku() < o2.getSku())<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      return -1;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    return 1;<br>
+  &nbsp;&nbsp;  }<br>
+  }<br>
+</p>
+
+<p *ngIf="active=='HashMap'">
+  HashMap compare on string, string:<br>
+  <li *ngFor="let psp of hsMapData.entrySet()"><button (click)="removeHashMap(psp);">{{psp.getKey()}} - {{psp.getValue()}}</button></li>
+  <br>
+  <input #hsmapsku type=text placeholder="key">
+  <input #hsmapname type=text placeholder="value">
+  <button (click)="putHashMap(hsmapsku.value, hsmapname.value);hsmapsku.value='';hsmapname.value=''">Put</button>
+
+  <br>  <br>  <br>  <br>
+  A HashMap is a Hash implementation of the JMap interface.   Duplicate keys are not permitted.   There are no guarantees as to the iteration order of the map.   Map order is not guaranteed to remain constant over time.<br>
+  Click on an item to remove it from the HashMap or enter a key and a value and and click Put to add it to the HashMap.<br><br>
+  <a href="https://larrydiamond.github.io/typescriptcollectionsframework/typedoc/classes/_src_hashmap_.hashmap.html">HashMap Documentation</a><br><br>
+
+  hsMapData:HashMap&lt;string, string> = new HashMap&lt;string, string>(new AllFieldHashable&lt;string>());<br>
+  this.hsMapData.add ("ABCDE", "Bird Seed");<br>
+  this.hsMapData.add ("FGHIJ", "Cat Food");<br>
+  this.hsMapData.add ("KLMNO", "Dog Food");<br>
+  this.hsMapData.remove ("ZZZZZ", "Not there anymore");<br>
+  for (let iter:JIterator&lt;MapEntry&lt;string, string> = this.hsMapData.entrySet().iterator(); iter.hasNext(); ) &#123; <br>
+  &nbsp;&nbsp;let psp:MapEntry&lt;string, string> = iter.next();<br>
+  &nbsp;&nbsp;console.log (psp.getKey() - psp.getEntry());<br>
+  &#125;<br>
+  <br>
+  How to iterate over a HashMap in the HTML template for an Angular Component:<br>
+  &lt;li *ngFor="let psp of hsMapData.entrySet()">&lt;button (click)="removeHashMap(psp);">&#123;&#123;psp.getKey() } } - &#123;&#123;psp.getValue() } } &lt;/button>&lt;/li>
+
+  <br>  <br>
+  export class PetStoreProduct &#123; // note no methods were added to this class for the framework to support it<br>
+    &nbsp;&nbsp;private sku:string;<br>
+    &nbsp;&nbsp;public getSku():string &#123; return this.sku; }<br>
+    &nbsp;&nbsp;public setSku(newsku:string) &#123; this.sku = newsku; }<br>
+  <br>
+    &nbsp;&nbsp;private name:string;<br>
+    &nbsp;&nbsp;public getName():string &#123; return this.name; }<br>
+    &nbsp;&nbsp;public setName(newname:string) &#123; this.name = newname; }<br>
+  <br>
+    &nbsp;&nbsp;constructor(isku:string, iname:string) &#123;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;  this.sku = isku;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;  this.name = iname;<br>
+    &nbsp;&nbsp;}<br>
+  }<br>
+</p>
+
+<p *ngIf="active=='TreeMap'">
+  TreeMap compare on string, string:<br>
+  <li *ngFor="let psp of tsMapData.entrySet()"><button (click)="removeTreeMap(psp);">{{psp.getKey()}} - {{psp.getValue()}}</button></li>
+  <br>
+  <input #tsmapsku type=text placeholder="key">
+  <input #tsmapname type=text placeholder="value">
+  <button (click)="putTreeMap(tsmapsku.value, tsmapname.value);tsmapsku.value='';tsmapname.value=''">Put</button>
+
+  <br>  <br>  <br>  <br>
+  A TreeMap is a binary tree implementation of the JMap interface.   Duplicate keys are not permitted.   The order of the elements is based on the Comparator provided to it at construction.<br>
+  Click on an item to remove it from the TreeMap or enter a key and a value and and click Put to add it to the TreeMap.<br><br>
+  <a href="https://larrydiamond.github.io/typescriptcollectionsframework/typedoc/classes/_src_treemap_.treemap.html">TreeMap Documentation</a><br><br>
+
+  tsMapData:TreeMap&lt;string, string> = new TreeMap&lt;string, string>(Collections.getStringComparator());<br>
+  this.tsMapData.add ("ABCDE", "Bird Seed");<br>
+  this.tsMapData.add ("FGHIJ", "Cat Food");<br>
+  this.tsMapData.add ("KLMNO", "Dog Food");<br>
+  this.tsMapData.remove ("ZZZZZ", "Not there anymore");<br>
+  for (let iter:JIterator&lt;MapEntry&lt;string, string> = this.tsMapData.entrySet().iterator(); iter.hasNext(); ) &#123; <br>
+  &nbsp;&nbsp;let psp:MapEntry&lt;string, string> = iter.next();<br>
+  &nbsp;&nbsp;console.log (psp.getKey() - psp.getEntry());<br>
+  &#125;<br>
+  <br>
+  How to iterate over a TreeMap in the HTML template for an Angular Component:<br>
+  &lt;li *ngFor="let psp of tsMapData.entrySet()">&lt;button (click)="removeTreeMap(psp);">&#123;&#123;psp.getKey() } } - &#123;&#123;psp.getValue() } } &lt;/button>&lt;/li>
+
+  <br>  <br>
+  export class PetStoreProduct &#123; // note no methods were added to this class for the framework to support it<br>
+    &nbsp;&nbsp;private sku:string;<br>
+    &nbsp;&nbsp;public getSku():string &#123; return this.sku; }<br>
+    &nbsp;&nbsp;public setSku(newsku:string) &#123; this.sku = newsku; }<br>
+  <br>
+    &nbsp;&nbsp;private name:string;<br>
+    &nbsp;&nbsp;public getName():string &#123; return this.name; }<br>
+    &nbsp;&nbsp;public setName(newname:string) &#123; this.name = newname; }<br>
+  <br>
+    &nbsp;&nbsp;constructor(isku:string, iname:string) &#123;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;  this.sku = isku;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;  this.name = iname;<br>
+    &nbsp;&nbsp;}<br>
+  }<br>
+</p>
