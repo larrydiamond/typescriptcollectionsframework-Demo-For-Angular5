@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ArrayList, LinkedList, HashSet, TreeSet, HashMap, TreeMap, Hashable, AllFieldCollectable, Collectable, AllFieldHashable, Collections, Comparator, ImmutableCollection, JIterator } from 'typescriptcollectionsframework';
+import { SkipListSet, SkipListMap, ArrayList, LinkedList, HashSet, TreeSet, HashMap, TreeMap, Hashable, AllFieldCollectable, Collectable, AllFieldHashable, Collections, Comparator, ImmutableCollection, JIterator } from 'typescriptcollectionsframework';
 
 export class PetStoreProduct {
   private readonly sku:string;
@@ -26,19 +26,23 @@ export class AppComponent {
   llData:LinkedList<string> = new LinkedList<string>(new AllFieldCollectable<string>());
   hsData:HashSet<string> = new HashSet<string>(new AllFieldHashable<string>());
   tsData:TreeSet<string> = new TreeSet<string>(Collections.getStringComparator());
+  slData:SkipListSet<string> = new SkipListSet<string>(Collections.getStringComparator());
 
   alAllData:ArrayList<PetStoreProduct> = new ArrayList<PetStoreProduct>(new AllFieldCollectable<PetStoreProduct>());
   llAllData:LinkedList<PetStoreProduct> = new LinkedList<PetStoreProduct>(new AllFieldCollectable<PetStoreProduct>());
   hsAllData:HashSet<PetStoreProduct> = new HashSet<PetStoreProduct>(new AllFieldHashable<PetStoreProduct>());
   tsAllData:TreeSet<PetStoreProduct> = new TreeSet<PetStoreProduct>(new PetStoreProductAllFieldsComparator());
+  slAllData:SkipListSet<PetStoreProduct> = new SkipListSet<PetStoreProduct>(new PetStoreProductAllFieldsComparator());
 
   alOneData:ArrayList<PetStoreProduct> = new ArrayList<PetStoreProduct>(new PetStoreProductSkuCollectable());
   llOneData:LinkedList<PetStoreProduct> = new LinkedList<PetStoreProduct>(new PetStoreProductSkuCollectable());
   hsOneData:HashSet<PetStoreProduct> = new HashSet<PetStoreProduct>(new PetStoreProductSkuHashable());
   tsOneData:TreeSet<PetStoreProduct> = new TreeSet<PetStoreProduct>(new PetStoreProductSkuComparator());
+  slOneData:SkipListSet<PetStoreProduct> = new SkipListSet<PetStoreProduct>(new PetStoreProductSkuComparator());
 
   hsMapData:HashMap<string, string> = new HashMap<string, string>(new AllFieldHashable<string>());
   tsMapData:TreeMap<string, string> = new TreeMap<string, string>(Collections.getStringComparator());
+  slMapData:SkipListMap<string, string> = new SkipListMap<string, string>(Collections.getStringComparator());
 
   constructor () {
     this.alData.add ("Cat");
@@ -56,6 +60,10 @@ export class AppComponent {
     this.tsData.add ("Cat");
     this.tsData.add ("Squirrel");
     this.tsData.add ("Dog");
+
+    this.slData.add ("Cat");
+    this.slData.add ("Squirrel");
+    this.slData.add ("Dog");
 
     let psp1:PetStoreProduct = new PetStoreProduct("ABCDE", "Bird Seed");
     let psp2:PetStoreProduct = new PetStoreProduct("FGHIJ", "Cat Food");
@@ -77,6 +85,10 @@ export class AppComponent {
     this.tsAllData.add (psp2);
     this.tsAllData.add (psp3);
 
+    this.slAllData.add (psp1);
+    this.slAllData.add (psp2);
+    this.slAllData.add (psp3);
+
     this.alOneData.add (psp1);
     this.alOneData.add (psp2);
     this.alOneData.add (psp3);
@@ -93,6 +105,10 @@ export class AppComponent {
     this.tsOneData.add (psp2);
     this.tsOneData.add (psp3);
 
+    this.slOneData.add (psp1);
+    this.slOneData.add (psp2);
+    this.slOneData.add (psp3);
+
     this.hsMapData.put (psp1.getSku(), psp1.getName());
     this.hsMapData.put (psp2.getSku(), psp2.getName());
     this.hsMapData.put (psp3.getSku(), psp3.getName());
@@ -100,6 +116,10 @@ export class AppComponent {
     this.tsMapData.put (psp1.getSku(), psp1.getName());
     this.tsMapData.put (psp2.getSku(), psp2.getName());
     this.tsMapData.put (psp3.getSku(), psp3.getName());
+
+    this.slMapData.put (psp1.getSku(), psp1.getName());
+    this.slMapData.put (psp2.getSku(), psp2.getName());
+    this.slMapData.put (psp3.getSku(), psp3.getName());
   }
 
   ngOnInit() {
@@ -117,6 +137,9 @@ export class AppComponent {
   TreeSet() {
     this.active = "TreeSet";
   }
+  SkipListSet() {
+    this.active = "SkipListSet";
+  }
   ArrayListAllFields() {
     this.active = "ArrayListAllFields";
   }
@@ -128,6 +151,9 @@ export class AppComponent {
   }
   TreeSetAllFields() {
     this.active = "TreeSetAllFields";
+  }
+  SkipListSetAllFields() {
+    this.active = "SkipListSetAllFields";
   }
   ArrayListOneField() {
     this.active = "ArrayListOneField";
@@ -141,11 +167,17 @@ export class AppComponent {
   TreeSetOneField() {
     this.active = "TreeSetOneField";
   }
+  SkipListSetOneField() {
+    this.active = "SkipListSetOneField";
+  }
   HashMap() {
     this.active = "HashMap";
   }
   TreeMap() {
     this.active = "TreeMap";
+  }
+  SkipListMap() {
+    this.active = "SkipListMap";
   }
 
   addArrayList(newdata:string) {
@@ -159,6 +191,9 @@ export class AppComponent {
   }
   addTreeSet(newdata:string) {
     this.tsData.add (newdata);
+  }
+  addSkipListSet(newdata:string) {
+    this.slData.add (newdata);
   }
   addArrayListAll(newsku:string, newvalue:string) {
     let psp:PetStoreProduct = new PetStoreProduct(newsku, newvalue);
@@ -176,6 +211,10 @@ export class AppComponent {
     let psp:PetStoreProduct = new PetStoreProduct(newsku, newvalue);
     this.tsAllData.add (psp);
   }
+  addSkipListSetAll(newsku:string, newvalue:string) {
+    let psp:PetStoreProduct = new PetStoreProduct(newsku, newvalue);
+    this.slAllData.add (psp);
+  }
   addArrayListOne(newsku:string, newvalue:string) {
     let psp:PetStoreProduct = new PetStoreProduct(newsku, newvalue);
     this.alOneData.add (psp);
@@ -192,11 +231,18 @@ export class AppComponent {
     let psp:PetStoreProduct = new PetStoreProduct(newsku, newvalue);
     this.tsOneData.add (psp);
   }
+  addSkipListSetOne(newsku:string, newvalue:string) {
+    let psp:PetStoreProduct = new PetStoreProduct(newsku, newvalue);
+    this.slOneData.add (psp);
+  }
   putHashMap(newsku:string, newvalue:string) {
     this.hsMapData.put (newsku, newvalue);
   }
   putTreeMap(newsku:string, newvalue:string) {
     this.tsMapData.put (newsku, newvalue);
+  }
+  putSkipListMap(newsku:string, newvalue:string) {
+    this.slMapData.put (newsku, newvalue);
   }
   removeArrayListEntry(olddata:string) {
     this.alData.remove(olddata);
@@ -210,6 +256,9 @@ export class AppComponent {
   removeTreeSetEntry(olddata:string) {
     this.tsData.remove(olddata);
   }
+  removeSkipListSetEntry(olddata:string) {
+    this.slData.remove(olddata);
+  }
   removeArrayListAllEntry(oldpsp:PetStoreProduct) {
     this.alAllData.remove(oldpsp);
   }
@@ -221,6 +270,9 @@ export class AppComponent {
   }
   removeTreeSetAllEntry(oldpsp:PetStoreProduct) {
     this.tsAllData.remove(oldpsp);
+  }
+  removeSkipListSetAllEntry(oldpsp:PetStoreProduct) {
+    this.slAllData.remove(oldpsp);
   }
   removeArrayListOneEntry(oldpsp:PetStoreProduct) {
     this.alOneData.remove(oldpsp);
@@ -234,11 +286,17 @@ export class AppComponent {
   removeTreeSetOneEntry(oldpsp:PetStoreProduct) {
     this.tsOneData.remove(oldpsp);
   }
+  removeSkipListSetOneEntry(oldpsp:PetStoreProduct) {
+    this.slOneData.remove(oldpsp);
+  }
   removeHashMapEntry(oldsku:string) {
     this.hsMapData.remove(oldsku);
   }
   removeTreeMapEntry(oldsku:string) {
     this.tsMapData.remove(oldsku);
+  }
+  removeSkipListMapEntry(oldsku:string) {
+    this.slMapData.remove(oldsku);
   }
 }
 

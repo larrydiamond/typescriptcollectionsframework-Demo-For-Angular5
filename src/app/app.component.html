@@ -18,6 +18,12 @@
     <td><a href="#" (click)="HashSetOneField()">PetStoreProduct compare one field</a>&nbsp;</td>
   </tr>
   <tr>
+    <td>SkipListSet</td>
+    <td><a href="#" (click)="SkipListSet()">string</a>&nbsp;</td>
+    <td><a href="#" (click)="SkipListSetAllFields()">PetStoreProduct compare all fields</a>&nbsp;</td>
+    <td><a href="#" (click)="SkipListSetOneField()">PetStoreProduct compare one field</a>&nbsp;</td>
+  </tr>
+  <tr>
     <td>TreeSet</td>
     <td><a href="#" (click)="TreeSet()">string</a>&nbsp;</td>
     <td><a href="#" (click)="TreeSetAllFields()">PetStoreProduct compare all fields</a>&nbsp;</td>
@@ -27,6 +33,11 @@
     <td>HashMap</td>
     <td><a href="#" (click)="HashMap()">string, string</a>&nbsp;</td>
     <td colspan=2>&nbsp; Very similar to the HashSet examples..... you'll see :) &nbsp;</td>
+  </tr>
+  <tr>
+    <td>SkipListMap</td>
+    <td><a href="#" (click)="SkipListMap()">string, string</a>&nbsp;</td>
+    <td colspan=2>&nbsp; Very similar to the SkipListSet examples..... you'll see :) &nbsp;</td>
   </tr>
   <tr>
     <td>TreeMap</td>
@@ -117,6 +128,32 @@ Source code for this app is located at <a href="https://github.com/larrydiamond/
   &lt;li *ngFor="let str of hsData">&lt;button (click)="removeHashSetEntry(str);">&#123;&#123;str&#125;&#125;&lt;/button>&lt;/li>
 </p>
 
+<p *ngIf="active=='SkipListSet'">
+  SkipList compare using string Comparator<br>
+  <li *ngFor="let str of slData"><button (click)="removeSkipListSetEntry(str);">{{str}}</button></li>
+  <br>
+  <input #sladd type=text placeholder="add">
+  <button (click)="addSkipListSet(sladd.value);sladd.value=''">Add</button>
+
+  <br>  <br>  <br>  <br>
+  A SkipListSet is a Set backed by a SkipListMap.  (TL;DR: Replace all TreeSet with SkipListSet they're faster <a href="https://en.wikipedia.org/wiki/Skip_list">SkipList explanation</a>  ).  Duplicates are not permitted.   The order of the elements is based on the Comparator provided to it at construction.<br>
+  Click on an item to remove it from the SkipListSet or enter a value and click Add to add it to the SkipListSet.<br><br>
+  <a href="https://larrydiamond.github.io/typescriptcollectionsframework/typedoc/classes/_skiplist_.skiplistset.html">SkipListSet Documentation</a><br><br>
+
+  slData:SkipListSet&lt;string> = new SkipListSet&lt;string>(Collections.getStringComparator());<br>
+  this.slData.add ("Cat");<br>
+  this.slData.add ("Squirrel");<br>
+  this.slData.add ("Dog");<br>
+  this.slData.remove ("OtherElement");<br>
+  for (let iter:JIterator&lt;string> = this.slData.iterator(); iter.hasNext(); ) &#123; <br>
+    &nbsp;&nbsp;let ostr:string = iter.next();<br>
+    &nbsp;&nbsp;console.log (ostr);<br>
+  &#125;<br>
+  <br>
+  How to iterate over a SkipListSet in the HTML template for an Angular Component:<br>
+  &lt;li *ngFor="let str of slData">&lt;button (click)="removeSkipListSetEntry(str);">&#123;&#123;str&#125;&#125;&lt;/button>&lt;/li>
+</p>
+
 <p *ngIf="active=='TreeSet'">
   TreeSet compare using string Comparator<br>
   <li *ngFor="let str of tsData"><button (click)="removeTreeSetEntry(str);">{{str}}</button></li>
@@ -141,9 +178,7 @@ Source code for this app is located at <a href="https://github.com/larrydiamond/
   <br>
   How to iterate over a TreeSet in the HTML template for an Angular Component:<br>
   &lt;li *ngFor="let str of tsData">&lt;button (click)="removeTreeSetEntry(str);">&#123;&#123;str&#125;&#125;&lt;/button>&lt;/li>
-
 </p>
-
 
 <p *ngIf="active=='ArrayListAllFields'">
   ArrayList compare on all fields:<br>
@@ -272,6 +307,55 @@ Source code for this app is located at <a href="https://github.com/larrydiamond/
     &nbsp;&nbsp;&nbsp;&nbsp;  this.sku = isku;<br>
     &nbsp;&nbsp;&nbsp;&nbsp;  this.name = iname;<br>
     &nbsp;&nbsp;}<br>
+  }<br>
+</p>
+
+<p *ngIf="active=='SkipListSetAllFields'">
+  SkipListSet compare all on fields<br>
+  <li *ngFor="let psp of slAllData"><button (click)="removeSkipListSetAllEntry(psp);">{{psp.getSku()}} - {{psp.getName()}}</button></li>
+  <br>
+  <input #slalladdsku type=text placeholder="sku">
+  <input #slalladdname type=text placeholder="name">
+  <button (click)="addSkipListSetAll(slalladdsku.value, slalladdname.value);slalladdsku.value='';slalladdname.value=''">Add</button>
+
+  <br>  <br>  <br>  <br>
+  A SkipListSet is a Set backed by a SkipListMap.  (TL;DR: Replace all TreeSet with SkipListSet they're faster <a href="https://en.wikipedia.org/wiki/Skip_list">SkipList explanation</a>  ).  Duplicates are not permitted.   The order of the elements is based on the Comparator provided to it at construction.<br>
+  Click on an item to remove it from the SkipListSet or enter a value and click Add to add it to the SkipListSet.<br><br>
+  <a href="https://larrydiamond.github.io/typescriptcollectionsframework/typedoc/classes/_skiplist_.skiplistset.html">SkipListSet Documentation</a><br><br>
+
+  slAllData:SkipListSet&lt;string> = new SkipListSet&lt;PetStoreProduct>(new PetStoreProductAllFieldsComparator());<br>
+  this.slAllData.add (new PetStoreProduct("ABCDE", "Bird Seed"));<br>
+  this.slAllData.add (new PetStoreProduct("FGHIJ", "Cat Food"));<br>
+  this.slAllData.add (new PetStoreProduct("KLMNO", "Dog Food"));<br>
+  this.slAllData.remove (new PetStoreProduct("ZZZZZ", "Not there anymore"));<br>
+  for (let iter:JIterator&lt;PetStoreProduct> = this.slAllData.iterator(); iter.hasNext(); ) &#123; <br>
+  &nbsp;&nbsp;let psp:PetStoreProduct = iter.next();<br>
+  &nbsp;&nbsp;console.log (psp.getSku() - psp.getName());<br>
+  &#125;<br>
+  <br>
+  How to iterate over a SkipListSet in the HTML template for an Angular Component:<br>
+  &lt;li *ngFor="let pspa of slAllData">&lt;button (click)="removeSkipListSetAllEntry(pspa);">&#123;&#123;pspa.getSku() } } - &#123;&#123;pspa.getName() } } &lt;/button>&lt;/li><br>
+<br>
+  export class PetStoreProductAllFieldsComparator implements Comparator&lt;PetStoreProduct> &#123;<br>
+  &nbsp;&nbsp;  compare(o1:PetStoreProduct, o2:PetStoreProduct) : number &#123;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    if (o1 === o2)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      return 0;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;      if (o1 === undefined)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      return -1;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    if (o1 === null)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      return -1;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    if (o2 === undefined)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      return 1;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    if (o2 === null)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      return 1;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    if (o1.getSku() < o2.getSku())<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      return -1;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    if (o1.getSku() > o2.getSku())<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      return 1;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    if (o1.getName() < o2.getName())<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      return -1;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    return 1;<br>
+  &nbsp;&nbsp;  }<br>
   }<br>
 </p>
 
@@ -595,9 +679,54 @@ Source code for this app is located at <a href="https://github.com/larrydiamond/
   }<br>
 </p>
 
+<p *ngIf="active=='SkipListSetOneField'">
+  SkipListSet compare all one field<br>
+  <li *ngFor="let psp of slOneData"><button (click)="removeSkipListSetOneEntry(psp);">{{psp.getSku()}} - {{psp.getName()}}</button></li>
+  <br>
+  <input #sloneaddsku type=text placeholder="sku">
+  <input #sloneaddname type=text placeholder="name">
+  <button (click)="addSkipListSetOne(sloneaddsku.value, sloneaddname.value);sloneaddsku.value='';sloneaddname.value=''">Add</button>
+
+  <br>  <br>  <br>  <br>
+  A SkipListSet is a Set backed by a SkipListMap.  (TL;DR: Replace all TreeSet with SkipListSet they're faster <a href="https://en.wikipedia.org/wiki/Skip_list">SkipList explanation</a>  ).  Duplicates are not permitted.   The order of the elements is based on the Comparator provided to it at construction.<br>
+  Click on an item to remove it from the SkipListSet or enter a value and click Add to add it to the SkipListSet.<br><br>
+  <a href="https://larrydiamond.github.io/typescriptcollectionsframework/typedoc/classes/_skiplist_.skiplistset.html">SkipListSet Documentation</a><br><br>
+
+  slOneData:SkipListSet&lt;string> = new SkipListSet&lt;PetStoreProduct>(new PetStoreProductOneFieldComparator());<br>
+  this.slOneData.add (new PetStoreProduct("ABCDE", "Bird Seed"));<br>
+  this.slOneData.add (new PetStoreProduct("FGHIJ", "Cat Food"));<br>
+  this.slOneData.add (new PetStoreProduct("KLMNO", "Dog Food"));<br>
+  this.slOneData.remove (new PetStoreProduct("ZZZZZ", "Not there anymore"));<br>
+  for (let iter:JIterator&lt;PetStoreProduct> = this.slOneData.iterator(); iter.hasNext(); ) &#123; <br>
+  &nbsp;&nbsp;let psp:PetStoreProduct = iter.next();<br>
+  &nbsp;&nbsp;console.log (psp.getSku() - psp.getName());<br>
+  &#125;<br>
+  <br>
+  How to iterate over a SkipListSet in the HTML template for an Angular Component:<br>
+  &lt;li *ngFor="let pspa of slOneData">&lt;button (click)="removeSkipListSetOneEntry(pspa);">&#123;&#123;pspa.getSku() } } - &#123;&#123;pspa.getName() } } &lt;/button>&lt;/li><br>
+<br>
+  export class PetStoreProductOneFieldComparator implements Comparator&lt;PetStoreProduct> &#123;<br>
+  &nbsp;&nbsp;  compare(o1:PetStoreProduct, o2:PetStoreProduct) : number &#123;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    if (o1 === o2)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      return 0;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;      if (o1 === undefined)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      return -1;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    if (o1 === null)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      return -1;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    if (o2 === undefined)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      return 1;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    if (o2 === null)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      return 1;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    if (o1.getSku() < o2.getSku())<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      return -1;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;    return 1;<br>
+  &nbsp;&nbsp;  }<br>
+  }<br>
+</p>
+
 <p *ngIf="active=='HashMap'">
   HashMap compare on string, string:<br>
-  <li *ngFor="let psp of hsMapData.entrySet()"><button (click)="removeHashMap(psp);">{{psp.getKey()}} - {{psp.getValue()}}</button></li>
+  <li *ngFor="let psp of hsMapData.entrySet()"><button (click)="removeHashMapEntry(psp.getKey());">{{psp.getKey()}} - {{psp.getValue()}}</button></li>
   <br>
   <input #hsmapsku type=text placeholder="key">
   <input #hsmapname type=text placeholder="value">
@@ -640,7 +769,7 @@ Source code for this app is located at <a href="https://github.com/larrydiamond/
 
 <p *ngIf="active=='TreeMap'">
   TreeMap compare on string, string:<br>
-  <li *ngFor="let psp of tsMapData.entrySet()"><button (click)="removeTreeMap(psp);">{{psp.getKey()}} - {{psp.getValue()}}</button></li>
+  <li *ngFor="let psp of tsMapData.entrySet()"><button (click)="removeTreeMapEntry(psp.getKey());">{{psp.getKey()}} - {{psp.getValue()}}</button></li>
   <br>
   <input #tsmapsku type=text placeholder="key">
   <input #tsmapname type=text placeholder="value">
@@ -663,6 +792,49 @@ Source code for this app is located at <a href="https://github.com/larrydiamond/
   <br>
   How to iterate over a TreeMap in the HTML template for an Angular Component:<br>
   &lt;li *ngFor="let psp of tsMapData.entrySet()">&lt;button (click)="removeTreeMap(psp);">&#123;&#123;psp.getKey() } } - &#123;&#123;psp.getValue() } } &lt;/button>&lt;/li>
+
+  <br>  <br>
+  export class PetStoreProduct &#123; // note no methods were added to this class for the framework to support it<br>
+    &nbsp;&nbsp;private sku:string;<br>
+    &nbsp;&nbsp;public getSku():string &#123; return this.sku; }<br>
+    &nbsp;&nbsp;public setSku(newsku:string) &#123; this.sku = newsku; }<br>
+  <br>
+    &nbsp;&nbsp;private name:string;<br>
+    &nbsp;&nbsp;public getName():string &#123; return this.name; }<br>
+    &nbsp;&nbsp;public setName(newname:string) &#123; this.name = newname; }<br>
+  <br>
+    &nbsp;&nbsp;constructor(isku:string, iname:string) &#123;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;  this.sku = isku;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;  this.name = iname;<br>
+    &nbsp;&nbsp;}<br>
+  }<br>
+</p>
+
+<p *ngIf="active=='SkipListMap'">
+  SkipListMap compare on string, string:<br>
+  <li *ngFor="let psp of slMapData.entrySet()"><button (click)="removeSkipListMapEntry(psp.getKey());">{{psp.getKey()}} - {{psp.getValue()}}</button></li>
+  <br>
+  <input #slmapsku type=text placeholder="key">
+  <input #slmapname type=text placeholder="value">
+  <button (click)="putSkipListMap(slmapsku.value, slmapname.value);slmapsku.value='';slmapname.value=''">Put</button>
+
+  <br>  <br>  <br>  <br>
+  A SkipListMap is a SkipList implementation of the JMap interface.   (TL;DR: Replace all TreeMap with SkipListMap they're faster <a href="https://en.wikipedia.org/wiki/Skip_list">SkipList explanation</a>  ).  Duplicate keys are not permitted.   The order of the elements is based on the Comparator provided to it at construction.<br>
+  Click on an item to remove it from the SkipListMap or enter a key and a value and and click Put to add it to the SkipListMap.<br><br>
+  <a href="https://larrydiamond.github.io/typescriptcollectionsframework/typedoc/classes/_skiplist_.skiplistmap.html">SkipListMap Documentation</a><br><br>
+
+  slMapData:SkipListMap&lt;string, string> = new SkipListMap&lt;string, string>(Collections.getStringComparator());<br>
+  this.slMapData.add ("ABCDE", "Bird Seed");<br>
+  this.slMapData.add ("FGHIJ", "Cat Food");<br>
+  this.slMapData.add ("KLMNO", "Dog Food");<br>
+  this.slMapData.remove ("ZZZZZ", "Not there anymore");<br>
+  for (let iter:JIterator&lt;MapEntry&lt;string, string> = this.slMapData.entrySet().iterator(); iter.hasNext(); ) &#123; <br>
+  &nbsp;&nbsp;let psp:MapEntry&lt;string, string> = iter.next();<br>
+  &nbsp;&nbsp;console.log (psp.getKey() - psp.getEntry());<br>
+  &#125;<br>
+  <br>
+  How to iterate over a SkipListMap in the HTML template for an Angular Component:<br>
+  &lt;li *ngFor="let psp of slMapData.entrySet()">&lt;button (click)="removeSkipListMap(psp);">&#123;&#123;psp.getKey() } } - &#123;&#123;psp.getValue() } } &lt;/button>&lt;/li>
 
   <br>  <br>
   export class PetStoreProduct &#123; // note no methods were added to this class for the framework to support it<br>
