@@ -11857,8 +11857,8 @@ var SkipListMapImpl = (function () {
                     ;
                 }
                 else {
-                    var cmp_1 = this.mapComparator.compare(nn.getKey(), key);
-                    if (cmp_1 === -1) {
+                    var cmpnn = this.mapComparator.compare(nn.getKey(), key);
+                    if (cmpnn === -1) {
                         node = nn;
                         done = true;
                     }
@@ -12008,11 +12008,11 @@ var SkipListMapImpl = (function () {
                     ;
                 }
                 else {
-                    var cmp_2 = this.mapComparator.compare(nn.getKey(), key);
-                    if (cmp_2 === 0) {
+                    var cmpnn = this.mapComparator.compare(nn.getKey(), key);
+                    if (cmpnn === 0) {
                         return nn;
                     }
-                    if (cmp_2 === -1) {
+                    if (cmpnn === -1) {
                         node = nn;
                         done = true;
                     }
