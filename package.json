@@ -52,7 +52,7 @@
     "protractor": "~5.1.2",
     "remap-istanbul": "0.9.5",
     "ts-node": "1.2.1",
-    "tslint": "^5.7.0",
+    "tslint": "^5.8.0",
     "webpack": "^2.5.1",
     "webpack-sources": "^1.0.1"
   }
