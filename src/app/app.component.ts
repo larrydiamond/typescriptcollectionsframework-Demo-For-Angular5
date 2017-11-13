@@ -20,29 +20,29 @@ export class PetStoreProduct {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  active:string = "ArrayList";
+  public active:string = "ArrayList";
 
-  alData:ArrayList<string> = new ArrayList<string>(new AllFieldCollectable<string>());
-  llData:LinkedList<string> = new LinkedList<string>(new AllFieldCollectable<string>());
-  hsData:HashSet<string> = new HashSet<string>(new AllFieldHashable<string>());
-  tsData:TreeSet<string> = new TreeSet<string>(Collections.getStringComparator());
-  slData:SkipListSet<string> = new SkipListSet<string>(Collections.getStringComparator());
+  public alData:ArrayList<string> = new ArrayList<string>(new AllFieldCollectable<string>());
+  public llData:LinkedList<string> = new LinkedList<string>(new AllFieldCollectable<string>());
+  public hsData:HashSet<string> = new HashSet<string>(new AllFieldHashable<string>());
+  public tsData:TreeSet<string> = new TreeSet<string>(Collections.getStringComparator());
+  public slData:SkipListSet<string> = new SkipListSet<string>(Collections.getStringComparator());
 
-  alAllData:ArrayList<PetStoreProduct> = new ArrayList<PetStoreProduct>(new AllFieldCollectable<PetStoreProduct>());
-  llAllData:LinkedList<PetStoreProduct> = new LinkedList<PetStoreProduct>(new AllFieldCollectable<PetStoreProduct>());
-  hsAllData:HashSet<PetStoreProduct> = new HashSet<PetStoreProduct>(new AllFieldHashable<PetStoreProduct>());
-  tsAllData:TreeSet<PetStoreProduct> = new TreeSet<PetStoreProduct>(new PetStoreProductAllFieldsComparator());
-  slAllData:SkipListSet<PetStoreProduct> = new SkipListSet<PetStoreProduct>(new PetStoreProductAllFieldsComparator());
+  public alAllData:ArrayList<PetStoreProduct> = new ArrayList<PetStoreProduct>(new AllFieldCollectable<PetStoreProduct>());
+  public llAllData:LinkedList<PetStoreProduct> = new LinkedList<PetStoreProduct>(new AllFieldCollectable<PetStoreProduct>());
+  public hsAllData:HashSet<PetStoreProduct> = new HashSet<PetStoreProduct>(new AllFieldHashable<PetStoreProduct>());
+  public tsAllData:TreeSet<PetStoreProduct> = new TreeSet<PetStoreProduct>(new PetStoreProductAllFieldsComparator());
+  public slAllData:SkipListSet<PetStoreProduct> = new SkipListSet<PetStoreProduct>(new PetStoreProductAllFieldsComparator());
 
-  alOneData:ArrayList<PetStoreProduct> = new ArrayList<PetStoreProduct>(new PetStoreProductSkuCollectable());
-  llOneData:LinkedList<PetStoreProduct> = new LinkedList<PetStoreProduct>(new PetStoreProductSkuCollectable());
-  hsOneData:HashSet<PetStoreProduct> = new HashSet<PetStoreProduct>(new PetStoreProductSkuHashable());
-  tsOneData:TreeSet<PetStoreProduct> = new TreeSet<PetStoreProduct>(new PetStoreProductSkuComparator());
-  slOneData:SkipListSet<PetStoreProduct> = new SkipListSet<PetStoreProduct>(new PetStoreProductSkuComparator());
+  public alOneData:ArrayList<PetStoreProduct> = new ArrayList<PetStoreProduct>(new PetStoreProductSkuCollectable());
+  public llOneData:LinkedList<PetStoreProduct> = new LinkedList<PetStoreProduct>(new PetStoreProductSkuCollectable());
+  public hsOneData:HashSet<PetStoreProduct> = new HashSet<PetStoreProduct>(new PetStoreProductSkuHashable());
+  public tsOneData:TreeSet<PetStoreProduct> = new TreeSet<PetStoreProduct>(new PetStoreProductSkuComparator());
+  public slOneData:SkipListSet<PetStoreProduct> = new SkipListSet<PetStoreProduct>(new PetStoreProductSkuComparator());
 
-  hsMapData:HashMap<string, string> = new HashMap<string, string>(new AllFieldHashable<string>());
-  tsMapData:TreeMap<string, string> = new TreeMap<string, string>(Collections.getStringComparator());
-  slMapData:SkipListMap<string, string> = new SkipListMap<string, string>(Collections.getStringComparator());
+  public hsMapData:HashMap<string, string> = new HashMap<string, string>(new AllFieldHashable<string>());
+  public tsMapData:TreeMap<string, string> = new TreeMap<string, string>(Collections.getStringComparator());
+  public slMapData:SkipListMap<string, string> = new SkipListMap<string, string>(Collections.getStringComparator());
 
   constructor () {
     this.alData.add ("Cat");
