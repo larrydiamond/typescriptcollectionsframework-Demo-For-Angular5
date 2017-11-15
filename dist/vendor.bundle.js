@@ -17306,7 +17306,7 @@ Zone.__load_patch('PromiseRejectionEvent', function (global, Zone, api) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_tslib__ = __webpack_require__("../../../../tslib/tslib.es6.js");
 /**
- * @license Angular v5.0.0
+ * @license Angular v5.0.1
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -21593,7 +21593,7 @@ var ISO8601_DATE_REGEX = /^(\d{4})-?(\d\d)-?(\d\d)(?:T(\d\d)(?::?(\d\d)(?::?(\d\
  *  |                    | ww          | Numeric: 2 digits + zero padded                               | 01... 53                                                   |
  *  | Week of month      | W           | Numeric: 1 digit                                              | 1... 5                                                     |
  *  | Day of month       | d           | Numeric: minimum digits                                       | 1                                                          |
- *  |                    | dd          | Numeric: 2 digits + zero padded                               | 1                                                          |
+ *  |                    | dd          | Numeric: 2 digits + zero padded                               | 01                                                          |
  *  | Week day           | E, EE & EEE | Abbreviated                                                   | Tue                                                        |
  *  |                    | EEEE        | Wide                                                          | Tuesday                                                    |
  *  |                    | EEEEE       | Narrow                                                        | T                                                          |
@@ -23407,8 +23407,8 @@ var PercentPipe = (function () {
  *   - `code`(default): use code (e.g. `USD`).
  *   - `symbol`: use symbol (e.g. `$`).
  *   - `symbol-narrow`: some countries have two symbols for their currency, one regular and one
- *   - boolean (deprecated from v5): `true` for symbol and false for `code`
  *   narrow (e.g. the canadian dollar CAD has the symbol `CA$` and the symbol-narrow `$`).
+ *   - boolean (deprecated from v5): `true` for symbol and false for `code`
  *   If there is no narrow symbol for the chosen currency, the regular symbol will be used.
  * - `digitInfo` See {\@link DecimalPipe} for detailed description.
  *  - `locale` is a `string` defining the locale to use (uses the current {\@link LOCALE_ID} by
@@ -23752,7 +23752,7 @@ function isPlatformWorkerUi(platformId) {
 /**
  * \@stable
  */
-var VERSION = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["_2" /* Version */]('5.0.0');
+var VERSION = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["_2" /* Version */]('5.0.1');
 
 /**
  * @fileoverview added by tsickle
@@ -24027,7 +24027,7 @@ var VERSION = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["_2" /* Version */
 /* unused harmony export removeSummaryDuplicates */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_tslib__ = __webpack_require__("../../../../tslib/tslib.es6.js");
 /**
- * @license Angular v5.0.0
+ * @license Angular v5.0.1
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -24647,7 +24647,7 @@ var Version = (function () {
 /**
  * \@stable
  */
-var VERSION = new Version('5.0.0');
+var VERSION = new Version('5.0.1');
 
 /**
  * @fileoverview added by tsickle
@@ -25342,11 +25342,11 @@ function templateVisitAll(visitor, asts, context) {
  */
 var CompilerConfig = (function () {
     function CompilerConfig(_a) {
-        var _b = _a === void 0 ? {} : _a, _c = _b.defaultEncapsulation, defaultEncapsulation = _c === void 0 ? ViewEncapsulation.Emulated : _c, _d = _b.useJit, useJit = _d === void 0 ? true : _d, _e = _b.jitDevMode, jitDevMode = _e === void 0 ? false : _e, missingTranslation = _b.missingTranslation, enableLegacyTemplate = _b.enableLegacyTemplate, preserveWhitespaces = _b.preserveWhitespaces, strictInjectionParameters = _b.strictInjectionParameters;
+        var _b = _a === void 0 ? {} : _a, _c = _b.defaultEncapsulation, defaultEncapsulation = _c === void 0 ? ViewEncapsulation.Emulated : _c, _d = _b.useJit, useJit = _d === void 0 ? true : _d, _e = _b.jitDevMode, jitDevMode = _e === void 0 ? false : _e, _f = _b.missingTranslation, missingTranslation = _f === void 0 ? null : _f, enableLegacyTemplate = _b.enableLegacyTemplate, preserveWhitespaces = _b.preserveWhitespaces, strictInjectionParameters = _b.strictInjectionParameters;
         this.defaultEncapsulation = defaultEncapsulation;
         this.useJit = !!useJit;
         this.jitDevMode = !!jitDevMode;
-        this.missingTranslation = missingTranslation || null;
+        this.missingTranslation = missingTranslation;
         this.enableLegacyTemplate = enableLegacyTemplate === true;
         this.preserveWhitespaces = preserveWhitespacesDefault(noUndefined(preserveWhitespaces));
         this.strictInjectionParameters = strictInjectionParameters === true;
@@ -39251,14 +39251,16 @@ var CompileMetadataResolver = (function () {
      * @return {?}
      */
     function (type) {
-        if (this.isDirective(type)) {
-            return 'directive';
-        }
-        if (this.isPipe(type)) {
-            return 'pipe';
-        }
-        if (this.isNgModule(type)) {
-            return 'module';
+        if (isValidType(type)) {
+            if (this.isDirective(type)) {
+                return 'directive';
+            }
+            if (this.isPipe(type)) {
+                return 'pipe';
+            }
+            if (this.isNgModule(type)) {
+                return 'module';
+            }
         }
         if ((/** @type {?} */ (type)).provide) {
             return 'provider';
@@ -58585,7 +58587,7 @@ var Extractor = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_operator_share__ = __webpack_require__("../../../../rxjs/_esm5/operator/share.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_Subject__ = __webpack_require__("../../../../rxjs/_esm5/Subject.js");
 /**
- * @license Angular v5.0.0
+ * @license Angular v5.0.1
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -59204,9 +59206,9 @@ var NgModule = makeDecorator('NgModule', function (ngModule) { return ngModule; 
 var ViewEncapsulation = {
     /**
        * Emulate `Native` scoping of styles by adding an attribute containing surrogate id to the Host
-       * Element and pre-processing the style rules provided via
-       * {@link Component#styles} or {@link Component#styleUrls}, and adding the new Host Element
-       * attribute to all selectors.
+       * Element and pre-processing the style rules provided via {@link Component#styles styles} or
+       * {@link Component#styleUrls styleUrls}, and adding the new Host Element attribute to all
+       * selectors.
        *
        * This is the default option.
        */
@@ -59253,7 +59255,7 @@ var Version = (function () {
 /**
  * \@stable
  */
-var VERSION = new Version('5.0.0');
+var VERSION = new Version('5.0.1');
 
 /**
  * @fileoverview added by tsickle
@@ -61360,7 +61362,7 @@ var ReflectiveInjector = (function () {
      * });
      * ```
      *
-     * See {@link ReflectiveInjector#fromResolvedProviders} for more info.
+     * See {@link ReflectiveInjector#fromResolvedProviders fromResolvedProviders} for more info.
      */
     /**
      * Turns an array of provider definitions into an array of resolved providers.
@@ -61393,7 +61395,7 @@ var ReflectiveInjector = (function () {
      * });
      * ```
      *
-     * See {\@link ReflectiveInjector#fromResolvedProviders} for more info.
+     * See {\@link ReflectiveInjector#fromResolvedProviders fromResolvedProviders} for more info.
      * @param {?} providers
      * @return {?}
      */
@@ -61428,7 +61430,7 @@ var ReflectiveInjector = (function () {
      * });
      * ```
      *
-     * See {\@link ReflectiveInjector#fromResolvedProviders} for more info.
+     * See {\@link ReflectiveInjector#fromResolvedProviders fromResolvedProviders} for more info.
      * @param {?} providers
      * @return {?}
      */
@@ -61459,7 +61461,8 @@ var ReflectiveInjector = (function () {
      *
      * This function is slower than the corresponding `fromResolvedProviders`
      * because it needs to resolve the passed-in providers first.
-     * See {@link ReflectiveInjector#resolve} and {@link ReflectiveInjector#fromResolvedProviders}.
+     * See {@link ReflectiveInjector#resolve resolve} and
+     * {@link ReflectiveInjector#fromResolvedProviders fromResolvedProviders}.
      */
     /**
      * Resolves an array of providers and creates an injector from those providers.
@@ -61485,7 +61488,8 @@ var ReflectiveInjector = (function () {
      *
      * This function is slower than the corresponding `fromResolvedProviders`
      * because it needs to resolve the passed-in providers first.
-     * See {\@link ReflectiveInjector#resolve} and {\@link ReflectiveInjector#fromResolvedProviders}.
+     * See {\@link ReflectiveInjector#resolve resolve} and
+     * {\@link ReflectiveInjector#fromResolvedProviders fromResolvedProviders}.
      * @param {?} providers
      * @param {?=} parent
      * @return {?}
@@ -61514,7 +61518,8 @@ var ReflectiveInjector = (function () {
      *
      * This function is slower than the corresponding `fromResolvedProviders`
      * because it needs to resolve the passed-in providers first.
-     * See {\@link ReflectiveInjector#resolve} and {\@link ReflectiveInjector#fromResolvedProviders}.
+     * See {\@link ReflectiveInjector#resolve resolve} and
+     * {\@link ReflectiveInjector#fromResolvedProviders fromResolvedProviders}.
      * @param {?} providers
      * @param {?=} parent
      * @return {?}
@@ -62067,7 +62072,7 @@ var ApplicationInitStatus = (function () {
 /**
  * A DI Token representing a unique string id assigned to the application by Angular and used
  * primarily for prefixing application attributes and CSS styles when
- * {\@link ViewEncapsulation#Emulated} is being used.
+ * {\@link ViewEncapsulation#Emulated ViewEncapsulation.Emulated} is being used.
  *
  * If you need to avoid randomly generated value to be used as an application id, you can provide
  * a custom value via a DI provider <!-- TODO: provider --> configuring the root {\@link Injector}
@@ -64573,9 +64578,8 @@ var Renderer2Interceptor = new InjectionToken('Renderer2Interceptor');
  *
  * Use this service to bypass Angular's templating and make custom UI changes that can't be
  * expressed declaratively. For example if you need to set a property or an attribute whose name is
- * not statically known, use {\@link Renderer#setElementProperty} or {\@link
- * Renderer#setElementAttribute}
- * respectively.
+ * not statically known, use {\@link Renderer#setElementProperty setElementProperty} or
+ * {\@link Renderer#setElementAttribute setElementAttribute} respectively.
  *
  * If you are implementing a custom renderer, you must implement this interface.
  *
@@ -65078,9 +65082,8 @@ function checkNotEmpty(value, modulePath, exportName) {
  * the constructor of the directive using the `TemplateRef` Token. Alternatively you can query for
  * the `TemplateRef` from a Component or a Directive via {\@link Query}.
  *
- * To instantiate Embedded Views based on a Template, use
- * {\@link ViewContainerRef#createEmbeddedView}, which will create the View and attach it to the
- * View Container.
+ * To instantiate Embedded Views based on a Template, use {\@link ViewContainerRef#
+ * createEmbeddedView}, which will create the View and attach it to the View Container.
  * \@stable
  * @abstract
  */
@@ -75164,7 +75167,7 @@ function transition$$1(stateChangeExpr, steps) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_operator_map__ = __webpack_require__("../../../../rxjs/_esm5/operator/map.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_platform_browser__ = __webpack_require__("../../../platform-browser/esm5/platform-browser.js");
 /**
- * @license Angular v5.0.0
+ * @license Angular v5.0.1
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -79085,16 +79088,16 @@ var FormControl = (function (_super) {
     /**
      * Patches the value of a control.
      *
-     * This function is functionally the same as {@link FormControl#setValue} at this level.
-     * It exists for symmetry with {@link FormGroup#patchValue} on `FormGroups` and `FormArrays`,
-     * where it does behave differently.
+     * This function is functionally the same as {@link FormControl#setValue setValue} at this level.
+     * It exists for symmetry with {@link FormGroup#patchValue patchValue} on `FormGroups` and
+     * `FormArrays`, where it does behave differently.
      */
     /**
      * Patches the value of a control.
      *
-     * This function is functionally the same as {\@link FormControl#setValue} at this level.
-     * It exists for symmetry with {\@link FormGroup#patchValue} on `FormGroups` and `FormArrays`,
-     * where it does behave differently.
+     * This function is functionally the same as {\@link FormControl#setValue setValue} at this level.
+     * It exists for symmetry with {\@link FormGroup#patchValue patchValue} on `FormGroups` and
+     * `FormArrays`, where it does behave differently.
      * @param {?} value
      * @param {?=} options
      * @return {?}
@@ -79102,9 +79105,9 @@ var FormControl = (function (_super) {
     FormControl.prototype.patchValue = /**
      * Patches the value of a control.
      *
-     * This function is functionally the same as {\@link FormControl#setValue} at this level.
-     * It exists for symmetry with {\@link FormGroup#patchValue} on `FormGroups` and `FormArrays`,
-     * where it does behave differently.
+     * This function is functionally the same as {\@link FormControl#setValue setValue} at this level.
+     * It exists for symmetry with {\@link FormGroup#patchValue patchValue} on `FormGroups` and
+     * `FormArrays`, where it does behave differently.
      * @param {?} value
      * @param {?=} options
      * @return {?}
@@ -79436,14 +79439,14 @@ var FormGroup = (function (_super) {
     /**
      * Registers a control with the group's list of controls.
      *
-     * This method does not update value or validity of the control, so for
-     * most cases you'll want to use {@link FormGroup#addControl} instead.
+     * This method does not update the value or validity of the control, so for most cases you'll want
+     * to use {@link FormGroup#addControl addControl} instead.
      */
     /**
      * Registers a control with the group's list of controls.
      *
-     * This method does not update value or validity of the control, so for
-     * most cases you'll want to use {\@link FormGroup#addControl} instead.
+     * This method does not update the value or validity of the control, so for most cases you'll want
+     * to use {\@link FormGroup#addControl addControl} instead.
      * @param {?} name
      * @param {?} control
      * @return {?}
@@ -79451,8 +79454,8 @@ var FormGroup = (function (_super) {
     FormGroup.prototype.registerControl = /**
      * Registers a control with the group's list of controls.
      *
-     * This method does not update value or validity of the control, so for
-     * most cases you'll want to use {\@link FormGroup#addControl} instead.
+     * This method does not update the value or validity of the control, so for most cases you'll want
+     * to use {\@link FormGroup#addControl addControl} instead.
      * @param {?} name
      * @param {?} control
      * @return {?}
@@ -79532,22 +79535,22 @@ var FormGroup = (function (_super) {
     /**
      * Check whether there is an enabled control with the given name in the group.
      *
-     * It will return false for disabled controls. If you'd like to check for
-     * existence in the group only, use {@link AbstractControl#get} instead.
+     * It will return false for disabled controls. If you'd like to check for existence in the group
+     * only, use {@link AbstractControl#get get} instead.
      */
     /**
      * Check whether there is an enabled control with the given name in the group.
      *
-     * It will return false for disabled controls. If you'd like to check for
-     * existence in the group only, use {\@link AbstractControl#get} instead.
+     * It will return false for disabled controls. If you'd like to check for existence in the group
+     * only, use {\@link AbstractControl#get get} instead.
      * @param {?} controlName
      * @return {?}
      */
     FormGroup.prototype.contains = /**
      * Check whether there is an enabled control with the given name in the group.
      *
-     * It will return false for disabled controls. If you'd like to check for
-     * existence in the group only, use {\@link AbstractControl#get} instead.
+     * It will return false for disabled controls. If you'd like to check for existence in the group
+     * only, use {\@link AbstractControl#get get} instead.
      * @param {?} controlName
      * @return {?}
      */
@@ -82011,7 +82014,7 @@ var formGroupNameProvider = {
  * controls into their own nested object.
  *
  * **Access the group**: You can access the associated {\@link FormGroup} using the
- * {\@link AbstractControl#get} method. Ex: `this.form.get('name')`.
+ * {\@link AbstractControl#get get} method. Ex: `this.form.get('name')`.
  *
  * You can also access individual controls within the group using dot syntax.
  * Ex: `this.form.get('name.first')`
@@ -82096,7 +82099,7 @@ var formArrayNameProvider = {
  * form controls dynamically.
  *
  * **Access the array**: You can access the associated {\@link FormArray} using the
- * {\@link AbstractControl#get} method on the parent {\@link FormGroup}.
+ * {\@link AbstractControl#get get} method on the parent {\@link FormGroup}.
  * Ex: `this.form.get('cities')`.
  *
  * **Get the value**: the `value` property is always synced and available on the
@@ -82104,17 +82107,17 @@ var formArrayNameProvider = {
  *
  * **Set the value**: You can set an initial value for each child control when instantiating
  * the {\@link FormArray}, or you can set the value programmatically later using the
- * {\@link FormArray}'s {\@link AbstractControl#setValue} or {\@link AbstractControl#patchValue}
- * methods.
+ * {\@link FormArray}'s {\@link AbstractControl#setValue setValue} or
+ * {\@link AbstractControl#patchValue patchValue} methods.
  *
  * **Listen to value**: If you want to listen to changes in the value of the array, you can
- * subscribe to the {\@link FormArray}'s {\@link AbstractControl#valueChanges} event.  You can also
- * listen to its {\@link AbstractControl#statusChanges} event to be notified when the validation
- * status is re-calculated.
+ * subscribe to the {\@link FormArray}'s {\@link AbstractControl#valueChanges valueChanges} event.
+ * You can also listen to its {\@link AbstractControl#statusChanges statusChanges} event to be
+ * notified when the validation status is re-calculated.
  *
- * **Add new controls**: You can add new controls to the {\@link FormArray} dynamically by
- * calling its {\@link FormArray#push} method.
- *  Ex: `this.form.get('cities').push(new FormControl());`
+ * **Add new controls**: You can add new controls to the {\@link FormArray} dynamically by calling
+ * its {\@link FormArray#push push} method.
+ * Ex: `this.form.get('cities').push(new FormControl());`
  *
  * ### Example
  *
@@ -83108,7 +83111,7 @@ var FormBuilder = (function () {
 /**
  * \@stable
  */
-var VERSION = new __WEBPACK_IMPORTED_MODULE_1__angular_core__["_2" /* Version */]('5.0.0');
+var VERSION = new __WEBPACK_IMPORTED_MODULE_1__angular_core__["_2" /* Version */]('5.0.1');
 
 /**
  * @fileoverview added by tsickle
@@ -83342,7 +83345,7 @@ var ReactiveFormsModule = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__ = __webpack_require__("../../../../rxjs/_esm5/Observable.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_platform_browser__ = __webpack_require__("../../../platform-browser/esm5/platform-browser.js");
 /**
- * @license Angular v5.0.0
+ * @license Angular v5.0.1
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -86038,7 +86041,7 @@ var JsonpModule = (function () {
 /**
  * @deprecated use \@angular/common/http instead
  */
-var VERSION = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["_2" /* Version */]('5.0.0');
+var VERSION = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["_2" /* Version */]('5.0.1');
 
 /**
  * @fileoverview added by tsickle
@@ -86104,7 +86107,7 @@ var VERSION = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["_2" /* Version */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_platform_browser__ = __webpack_require__("../../../platform-browser/esm5/platform-browser.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_tslib__ = __webpack_require__("../../../../tslib/tslib.es6.js");
 /**
- * @license Angular v5.0.0
+ * @license Angular v5.0.1
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -86755,7 +86758,7 @@ var CachedResourceLoader = (function (_super) {
 /**
  * \@stable
  */
-var VERSION = new __WEBPACK_IMPORTED_MODULE_1__angular_core__["_2" /* Version */]('5.0.0');
+var VERSION = new __WEBPACK_IMPORTED_MODULE_1__angular_core__["_2" /* Version */]('5.0.1');
 
 /**
  * @fileoverview added by tsickle
@@ -86866,7 +86869,7 @@ var platformBrowserDynamic = Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__[
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_tslib__ = __webpack_require__("../../../../tslib/tslib.es6.js");
 /**
- * @license Angular v5.0.0
+ * @license Angular v5.0.1
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -89995,7 +89998,7 @@ var ShadowDomRenderer = (function (_super) {
  * found in the LICENSE file at https://angular.io/license
  */
 var ɵ0 = function (v) {
-    return v;
+    return '__zone_symbol__' + v;
 };
 /**
  * Detect if Zone is present. If it is then use simple zone aware 'addEventListener'
@@ -90011,6 +90014,8 @@ var FALSE = 'FALSE';
 var ANGULAR = 'ANGULAR';
 var NATIVE_ADD_LISTENER = 'addEventListener';
 var NATIVE_REMOVE_LISTENER = 'removeEventListener';
+// use the same symbol string which is used in zone.js
+var stopSymbol = '__zone_symbol__propagationStopped';
 var blackListedEvents = (typeof Zone !== 'undefined') && (/** @type {?} */ (Zone))[__symbol__('BLACK_LISTED_EVENTS')];
 var blackListedMap;
 if (blackListedEvents) {
@@ -90051,6 +90056,9 @@ var globalListener = function (event) {
         // itself or others
         var /** @type {?} */ copiedTasks = taskDatas.slice();
         for (var /** @type {?} */ i = 0; i < copiedTasks.length; i++) {
+            if ((/** @type {?} */ (event))[stopSymbol] === true) {
+                break;
+            }
             var /** @type {?} */ taskData = copiedTasks[i];
             if (taskData.zone !== Zone.current) {
                 // only use Zone.run when Zone.current not equals to stored zone
@@ -90067,8 +90075,31 @@ var DomEventsPlugin = (function (_super) {
     function DomEventsPlugin(doc, ngZone) {
         var _this = _super.call(this, doc) || this;
         _this.ngZone = ngZone;
+        _this.patchEvent();
         return _this;
     }
+    /**
+     * @return {?}
+     */
+    DomEventsPlugin.prototype.patchEvent = /**
+     * @return {?}
+     */
+    function () {
+        if (!Event || !Event.prototype) {
+            return;
+        }
+        var /** @type {?} */ symbol = '__zone_symbol__stopImmediatePropagation';
+        if ((/** @type {?} */ (Event.prototype))[symbol]) {
+            // already patched by zone.js
+            return;
+        }
+        (/** @type {?} */ (Event.prototype))[symbol] = Event.prototype.stopImmediatePropagation;
+        Event.prototype.stopImmediatePropagation = function () {
+            if (this) {
+                this[stopSymbol] = true;
+            }
+        };
+    };
     // This plugin should come last in the list of plugins, because it accepts all
     // events.
     /**
@@ -91989,7 +92020,7 @@ var By = (function () {
 /**
  * \@stable
  */
-var VERSION = new __WEBPACK_IMPORTED_MODULE_1__angular_core__["_2" /* Version */]('5.0.0');
+var VERSION = new __WEBPACK_IMPORTED_MODULE_1__angular_core__["_2" /* Version */]('5.0.1');
 
 /**
  * @fileoverview added by tsickle
