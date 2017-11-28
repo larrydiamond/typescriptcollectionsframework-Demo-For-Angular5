@@ -8998,7 +8998,7 @@ var _root = __window || __global || __self;
 
 //# sourceMappingURL=root.js.map 
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("../../node_modules/webpack/buildin/global.js")))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("../../../../webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -9562,6 +9562,39 @@ var ArrayList = (function () {
         this.sizeValue = this.sizeValue + 1;
     };
     /**
+    * Inserts the specified element at the front of this deque
+    * @param {K} k element to add
+    * @return {boolean} true if this collection changed as a result of the call
+    */
+    ArrayList.prototype.addFirst = function (t) {
+        this.addIndex(0, t);
+        return true;
+    };
+    /**
+    * Inserts the specified element at the front of this deque
+    * @param {K} k element to add
+    * @return {boolean} true if this collection changed as a result of the call
+    */
+    ArrayList.prototype.offerFirst = function (t) {
+        return this.addFirst(t);
+    };
+    /**
+    * Inserts the specified element at the end of this deque
+    * @param {K} k element to add
+    * @return {boolean} true if this collection changed as a result of the call
+    */
+    ArrayList.prototype.addLast = function (t) {
+        return this.add(t);
+    };
+    /**
+    * Inserts the specified element at the end of this deque
+    * @param {K} k element to add
+    * @return {boolean} true if this collection changed as a result of the call
+    */
+    ArrayList.prototype.offerLast = function (t) {
+        return this.addLast(t);
+    };
+    /**
      * Inserts all of the elements in the specified collection into this list, starting at the specified position. Shifts the element currently at that position (if any) and any subsequent elements to the right (increases their indices). The new elements will appear in the list in the order that they are returned by the specified collection's iterator.
      * @param {number} index index at which to insert the first element from the specified collection
      * @param {Collection} c collection containing elements to be added to this list
@@ -9594,10 +9627,30 @@ var ArrayList = (function () {
         if ((this.elements === null) || (this.elements === undefined)) {
             return undefined;
         }
+        if (this.size() < 1) {
+            return undefined;
+        }
         var element = this.elements[index];
         this.elements.splice(index, 1);
         this.sizeValue = this.sizeValue - 1;
         return element;
+    };
+    /**
+    * Retrieves and removes the head of this queue. This method differs from poll only in that it returns undefined if this queue is empty
+    * @return {K} the element at the head of the queue or undefined if empty
+    */
+    ArrayList.prototype.removeFirst = function () {
+        return this.removeIndex(0);
+    };
+    /**
+    * Retrieves and removes the element at the end of this queue. This method differs from poll only in that it returns undefined if this queue is empty
+    * @return {K} the element at the end of the queue or undefined if empty
+    */
+    ArrayList.prototype.removeLast = function () {
+        if (this.size() < 1) {
+            return undefined;
+        }
+        return this.removeIndex(this.size() - 1);
     };
     /**
      * Removes all of the elements from this list. The list will be empty after this call returns.
@@ -9739,6 +9792,28 @@ var ArrayList = (function () {
         return element;
     };
     /**
+    * Retrieves and removes the head of this queue, or returns null if this queue is empty.
+    * @return {K} the element at the head of the queue or null if empty
+    */
+    ArrayList.prototype.pollFirst = function () {
+        return this.poll();
+    };
+    /**
+    * Retrieves and removes the element at the end of this queue, or returns null if this queue is empty.
+    * @return {K} the element at the head of the queue or null if empty
+    */
+    ArrayList.prototype.pollLast = function () {
+        if ((this.elements === null) || (this.elements === undefined)) {
+            return null;
+        }
+        if (this.sizeValue <= 0) {
+            return null;
+        }
+        var element = this.get(this.size() - 1);
+        this.removeIndex(this.size() - 1);
+        return element;
+    };
+    /**
     * Retrieves and removes the head of this queue. This method differs from poll only in that it returns undefined if this queue is empty
     * Needed to implement Queue
     * @return {T} the element at the head of the queue or undefined if empty
@@ -9770,9 +9845,58 @@ var ArrayList = (function () {
         return element;
     };
     /**
+    * Retrieves, but does not remove, the head of this queue, or returns null if this queue is empty.
+    * @return {K} the element at the head of the queue or null if empty
+    */
+    ArrayList.prototype.peekFirst = function () {
+        return this.peek();
+    };
+    /**
+    * Retrieves, but does not remove, the last element of this queue, or returns null if this queue is empty.
+    * @return {K} the element at the head of the queue or null if empty
+    */
+    ArrayList.prototype.peekLast = function () {
+        if ((this.elements === null) || (this.elements === undefined)) {
+            return null;
+        }
+        if (this.sizeValue <= 0) {
+            return null;
+        }
+        var element = this.get(this.size() - 1);
+        return element;
+    };
+    /**
+    * Retrieves, but does not remove, the head of this queue. This method differs from peek only in that it returns undefined if this queue is empty.
+    * @return {K} the element at the head of the queue or undefined if empty
+    */
+    ArrayList.prototype.getFirst = function () {
+        if ((this.elements === null) || (this.elements === undefined)) {
+            return undefined;
+        }
+        if (this.sizeValue <= 0) {
+            return undefined;
+        }
+        var element = this.get(0);
+        return element;
+    };
+    /**
+    * Retrieves, but does not remove, the last element of this queue. This method differs from peek only in that it returns undefined if this queue is empty.
+    * @return {K} the element at the end of the queue or undefined if empty
+    */
+    ArrayList.prototype.getLast = function () {
+        if ((this.elements === null) || (this.elements === undefined)) {
+            return undefined;
+        }
+        if (this.sizeValue <= 0) {
+            return undefined;
+        }
+        var element = this.get(this.size() - 1);
+        return element;
+    };
+    /**
     * Retrieves, but does not remove, the head of this queue. This method differs from peek only in that it returns undefined if this queue is empty.
     * Needed to implement Queue
-    * @return {T} the element at the head of the queue or null if empty
+    * @return {T} the element at the head of the queue or undefined if empty
     */
     ArrayList.prototype.element = function () {
         if ((this.elements === null) || (this.elements === undefined)) {
@@ -10935,6 +11059,33 @@ var LinkedList = (function () {
         return true;
     };
     /**
+    * Inserts the specified element at the front of this deque
+    * @param {K} k element to add
+    * @return {boolean} true if this collection changed as a result of the call
+    */
+    LinkedList.prototype.addFirst = function (t) {
+        var lln = new LinkedListNode(t);
+        if ((this.firstNode === null) || (this.firstNode === undefined)) {
+            this.firstNode = lln;
+            this.lastNode = lln;
+            this.numberElements = 1;
+            return true;
+        }
+        this.firstNode.previousNode = lln;
+        lln.nextNode = this.firstNode;
+        this.firstNode = lln;
+        this.numberElements = this.numberElements + 1;
+        return true;
+    };
+    /**
+    * Inserts the specified element at the end of this deque
+    * @param {K} k element to add
+    * @return {boolean} true if this collection changed as a result of the call
+    */
+    LinkedList.prototype.addLast = function (t) {
+        return this.add(t);
+    };
+    /**
     * Inserts the specified element into this queue if it is possible to do so immediately without violating capacity restrictions.
     * Needed to implement Queue interface
     * @param {T} t element to Append
@@ -10942,6 +11093,22 @@ var LinkedList = (function () {
     */
     LinkedList.prototype.offer = function (t) {
         return this.add(t);
+    };
+    /**
+    * Inserts the specified element at the front of this deque
+    * @param {K} k element to add
+    * @return {boolean} true if this collection changed as a result of the call
+    */
+    LinkedList.prototype.offerFirst = function (t) {
+        return this.addFirst(t);
+    };
+    /**
+    * Inserts the specified element at the end of this deque
+    * @param {K} k element to add
+    * @return {boolean} true if this collection changed as a result of the call
+    */
+    LinkedList.prototype.offerLast = function (t) {
+        return this.addLast(t);
     };
     /**
      * Inserts the specified element at the specified position in this list. Shifts the element currently at that position (if any) and any subsequent elements to the right (adds one to their indices).
@@ -11164,6 +11331,11 @@ var LinkedList = (function () {
             this.numberElements = this.numberElements - 1;
             if (this.firstNode !== null)
                 this.firstNode.previousNode = null;
+            if (this.numberElements < 1) {
+                this.numberElements = 0;
+                this.firstNode = null;
+                this.lastNode = null;
+            }
             return payload;
         }
         if (index === (this.numberElements - 1)) {
@@ -11219,20 +11391,30 @@ var LinkedList = (function () {
         return -1;
     };
     /**
-     * Returns the first element in this list.
-     * @return {T} the first element in this list, null if the list is empty
+     * etrieves, but does not remove, the first element in this list.
+     * @return {T} the first element in this list, undefined if the list is empty
      */
     LinkedList.prototype.getFirst = function () {
         var node = this.firstNode;
         if ((node === null) || (node === undefined))
-            return null;
+            return undefined;
         return node.payload;
     };
     LinkedList.prototype.getFirstNode = function () {
         var node = this.firstNode;
         if ((node === null) || (node === undefined))
-            return null;
+            return undefined;
         return node;
+    };
+    /**
+    * Retrieves, but does not remove, the last element of this queue. This method differs from peek only in that it returns undefined if this queue is empty.
+    * @return {K} the element at the tail of the queue or undefined if empty
+    */
+    LinkedList.prototype.getLast = function () {
+        var node = this.lastNode;
+        if ((node === null) || (node === undefined))
+            return undefined;
+        return node.payload;
     };
     /**
      * Returns the element at the specified position in this list.
@@ -11242,6 +11424,19 @@ var LinkedList = (function () {
     LinkedList.prototype.get = function (index) {
         var offset = 0;
         var node = this.firstNode;
+        if (index === 0) {
+            if ((node === null) || (node === undefined)) {
+                return null;
+            }
+            return node.payload;
+        }
+        if (index === this.numberElements - 1) {
+            node = this.lastNode;
+            if ((node === null) || (node === undefined)) {
+                return null;
+            }
+            return node.payload;
+        }
         while ((node !== null) && (node !== undefined)) {
             if (index === offset) {
                 return node.payload;
@@ -11287,8 +11482,30 @@ var LinkedList = (function () {
         if (this.numberElements <= 0) {
             return null;
         }
-        var element = this.get(0);
+        var element = this.firstNode.payload;
         this.removeIndex(0);
+        return element;
+    };
+    /**
+    * Retrieves and removes the head of this queue, or returns null if this queue is empty.
+    * @return {K} the element at the head of the queue or null if empty
+    */
+    LinkedList.prototype.pollFirst = function () {
+        return this.poll();
+    };
+    /**
+    * Retrieves and removes the element at the end of this queue, or returns null if this queue is empty.
+    * @return {K} the element at the head of the queue or null if empty
+    */
+    LinkedList.prototype.pollLast = function () {
+        if ((this.firstNode === null) || (this.firstNode === undefined)) {
+            return null;
+        }
+        if (this.numberElements <= 0) {
+            return null;
+        }
+        var element = this.get(this.size() - 1);
+        this.removeIndex(this.size() - 1);
         return element;
     };
     /**
@@ -11303,8 +11520,30 @@ var LinkedList = (function () {
         if (this.numberElements <= 0) {
             return undefined;
         }
-        var element = this.get(0);
+        var element = this.firstNode.payload;
         this.removeIndex(0);
+        return element;
+    };
+    /**
+    * Retrieves and removes the head of this queue. This method differs from poll only in that it returns undefined if this queue is empty
+    * @return {K} the element at the head of the queue or undefined if empty
+    */
+    LinkedList.prototype.removeFirst = function () {
+        return this.removeQueue();
+    };
+    /**
+    * Retrieves and removes the element at the end of this queue. This method differs from poll only in that it returns undefined if this queue is empty
+    * @return {K} the element at the end of the queue or undefined if empty
+    */
+    LinkedList.prototype.removeLast = function () {
+        if ((this.firstNode === null) || (this.firstNode === undefined)) {
+            return undefined;
+        }
+        if (this.numberElements <= 0) {
+            return undefined;
+        }
+        var element = this.get(this.size() - 1);
+        this.removeIndex(this.size() - 1);
         return element;
     };
     /**
@@ -11319,8 +11558,27 @@ var LinkedList = (function () {
         if (this.numberElements <= 0) {
             return null;
         }
-        var element = this.get(0);
-        return element;
+        return this.firstNode.payload;
+    };
+    /**
+    * Retrieves, but does not remove, the head of this queue, or returns null if this queue is empty.
+    * @return {K} the element at the head of the queue or null if empty
+    */
+    LinkedList.prototype.peekFirst = function () {
+        return this.peek();
+    };
+    /**
+    * Retrieves, but does not remove, the last element of this queue, or returns null if this queue is empty.
+    * @return {K} the element at the head of the queue or null if empty
+    */
+    LinkedList.prototype.peekLast = function () {
+        if ((this.lastNode === null) || (this.lastNode === undefined)) {
+            return null;
+        }
+        if (this.numberElements <= 0) {
+            return null;
+        }
+        return this.lastNode.payload;
     };
     /**
     * Retrieves, but does not remove, the head of this queue. This method differs from peek only in that it returns undefined if this queue is empty.
@@ -11334,7 +11592,7 @@ var LinkedList = (function () {
         if (this.numberElements <= 0) {
             return undefined;
         }
-        var element = this.get(0);
+        var element = this.firstNode.payload;
         return element;
     };
     /**
@@ -14178,6 +14436,34 @@ var TreeSetIterator = (function () {
     return TreeSetIterator;
 }());
 exports.TreeSetIterator = TreeSetIterator;
+
+
+/***/ }),
+
+/***/ "../../../../webpack/buildin/global.js":
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
 
 
 /***/ }),
@@ -17212,7 +17498,7 @@ Zone.__load_patch('PromiseRejectionEvent', function (global, Zone, api) {
 
 })));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("../../node_modules/webpack/buildin/global.js")))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("../../../../webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -17306,7 +17592,7 @@ Zone.__load_patch('PromiseRejectionEvent', function (global, Zone, api) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_tslib__ = __webpack_require__("../../../../tslib/tslib.es6.js");
 /**
- * @license Angular v5.0.1
+ * @license Angular v5.0.3
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -23404,8 +23690,8 @@ var PercentPipe = (function () {
  * - `currencyCode` is the [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code, such
  *    as `USD` for the US dollar and `EUR` for the euro.
  * - `display` indicates whether to show the currency symbol or the code.
- *   - `code`(default): use code (e.g. `USD`).
- *   - `symbol`: use symbol (e.g. `$`).
+ *   - `code`: use code (e.g. `USD`).
+ *   - `symbol`(default): use symbol (e.g. `$`).
  *   - `symbol-narrow`: some countries have two symbols for their currency, one regular and one
  *   narrow (e.g. the canadian dollar CAD has the symbol `CA$` and the symbol-narrow `$`).
  *   - boolean (deprecated from v5): `true` for symbol and false for `code`
@@ -23752,7 +24038,7 @@ function isPlatformWorkerUi(platformId) {
 /**
  * \@stable
  */
-var VERSION = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["_2" /* Version */]('5.0.1');
+var VERSION = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["_2" /* Version */]('5.0.3');
 
 /**
  * @fileoverview added by tsickle
@@ -24027,7 +24313,7 @@ var VERSION = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["_2" /* Version */
 /* unused harmony export removeSummaryDuplicates */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_tslib__ = __webpack_require__("../../../../tslib/tslib.es6.js");
 /**
- * @license Angular v5.0.1
+ * @license Angular v5.0.3
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -24647,7 +24933,7 @@ var Version = (function () {
 /**
  * \@stable
  */
-var VERSION = new Version('5.0.1');
+var VERSION = new Version('5.0.3');
 
 /**
  * @fileoverview added by tsickle
@@ -31474,7 +31760,8 @@ var ParseError = (function () {
      */
     function () {
         var /** @type {?} */ ctx = this.span.start.getContext(100, 3);
-        return ctx ? " (\"" + ctx.before + "[" + ParseErrorLevel[this.level] + " ->]" + ctx.after + "\")" : '';
+        return ctx ? this.msg + " (\"" + ctx.before + "[" + ParseErrorLevel[this.level] + " ->]" + ctx.after + "\")" :
+            this.msg;
     };
     /**
      * @return {?}
@@ -31484,7 +31771,7 @@ var ParseError = (function () {
      */
     function () {
         var /** @type {?} */ details = this.span.details ? ", " + this.span.details : '';
-        return "" + this.msg + this.contextualMessage() + ": " + this.span.start + details;
+        return this.contextualMessage() + ": " + this.span.start + details;
     };
     return ParseError;
 }());
@@ -46905,17 +47192,31 @@ var ShadowCss = (function () {
         var /** @type {?} */ startIndex = 0;
         var /** @type {?} */ res;
         var /** @type {?} */ sep = /( |>|\+|~(?!=))\s*/g;
-        var /** @type {?} */ scopeAfter = selector.indexOf(_polyfillHostNoCombinator);
+        // If a selector appears before :host it should not be shimmed as it
+        // matches on ancestor elements and not on elements in the host's shadow
+        // `:host-context(div)` is transformed to
+        // `-shadowcsshost-no-combinatordiv, div -shadowcsshost-no-combinator`
+        // the `div` is not part of the component in the 2nd selectors and should not be scoped.
+        // Historically `component-tag:host` was matching the component so we also want to preserve
+        // this behavior to avoid breaking legacy apps (it should not match).
+        // The behavior should be:
+        // - `tag:host` -> `tag[h]` (this is to avoid breaking legacy apps, should not match anything)
+        // - `tag :host` -> `tag [h]` (`tag` is not scoped because it's considered part of a
+        //   `:host-context(tag)`)
+        var /** @type {?} */ hasHost = selector.indexOf(_polyfillHostNoCombinator) > -1;
+        // Only scope parts after the first `-shadowcsshost-no-combinator` when it is present
+        var /** @type {?} */ shouldScope = !hasHost;
         while ((res = sep.exec(selector)) !== null) {
             var /** @type {?} */ separator = res[1];
-            var /** @type {?} */ part = selector.slice(startIndex, res.index).trim();
-            // if a selector appears before :host-context it should not be shimmed as it
-            // matches on ancestor elements and not on elements in the host's shadow
-            var /** @type {?} */ scopedPart = startIndex >= scopeAfter ? _scopeSelectorPart(part) : part;
+            var /** @type {?} */ part_1 = selector.slice(startIndex, res.index).trim();
+            shouldScope = shouldScope || part_1.indexOf(_polyfillHostNoCombinator) > -1;
+            var /** @type {?} */ scopedPart = shouldScope ? _scopeSelectorPart(part_1) : part_1;
             scopedSelector += scopedPart + " " + separator + " ";
             startIndex = sep.lastIndex;
         }
-        scopedSelector += _scopeSelectorPart(selector.substring(startIndex));
+        var /** @type {?} */ part = selector.substring(startIndex);
+        shouldScope = shouldScope || part.indexOf(_polyfillHostNoCombinator) > -1;
+        scopedSelector += shouldScope ? _scopeSelectorPart(part) : part;
         // replace the placeholders with their original values
         return safeContent.restore(scopedSelector);
     };
@@ -50590,6 +50891,28 @@ var TypeCheckCompiler = (function () {
     return TypeCheckCompiler;
 }());
 var DYNAMIC_VAR_NAME = '_any';
+var TypeCheckLocalResolver = (function () {
+    function TypeCheckLocalResolver() {
+    }
+    /**
+     * @param {?} name
+     * @return {?}
+     */
+    TypeCheckLocalResolver.prototype.getLocal = /**
+     * @param {?} name
+     * @return {?}
+     */
+    function (name) {
+        if (name === EventHandlerVars.event.name) {
+            // References to the event should not be type-checked.
+            // TODO(chuckj): determine a better type for the event.
+            return variable(DYNAMIC_VAR_NAME);
+        }
+        return null;
+    };
+    return TypeCheckLocalResolver;
+}());
+var defaultResolver = new TypeCheckLocalResolver();
 var ViewBuilder = (function () {
     function ViewBuilder(options, reflector, externalReferenceVars, parent, component, isHostComponent, embeddedViewIndex, pipes, viewBuilderFactory) {
         this.options = options;
@@ -50664,7 +50987,7 @@ var ViewBuilder = (function () {
         this.updates.forEach(function (expression) {
             var _a = _this.preprocessUpdateExpression(expression), sourceSpan = _a.sourceSpan, context = _a.context, value = _a.value;
             var /** @type {?} */ bindingId = "" + bindingCount++;
-            var /** @type {?} */ nameResolver = context === _this.component ? _this : null;
+            var /** @type {?} */ nameResolver = context === _this.component ? _this : defaultResolver;
             var _b = convertPropertyBinding(nameResolver, variable(_this.getOutputVar(context)), value, bindingId), stmts = _b.stmts, currValExpr = _b.currValExpr;
             stmts.push(new ExpressionStatement(currValExpr));
             viewStmts.push.apply(viewStmts, stmts.map(function (stmt) { return applySourceSpanToStatementIfNeeded(stmt, sourceSpan); }));
@@ -50672,7 +50995,7 @@ var ViewBuilder = (function () {
         this.actions.forEach(function (_a) {
             var sourceSpan = _a.sourceSpan, context = _a.context, value = _a.value;
             var /** @type {?} */ bindingId = "" + bindingCount++;
-            var /** @type {?} */ nameResolver = context === _this.component ? _this : null;
+            var /** @type {?} */ nameResolver = context === _this.component ? _this : defaultResolver;
             var stmts = convertActionBinding(nameResolver, variable(_this.getOutputVar(context)), value, bindingId).stmts;
             viewStmts.push.apply(viewStmts, stmts.map(function (stmt) { return applySourceSpanToStatementIfNeeded(stmt, sourceSpan); }));
         });
@@ -53450,7 +53773,7 @@ var AotCompiler = (function () {
             // These can be used by the type check block for components,
             // and they also cause TypeScript to include these files into the program too,
             // which will make them part of the analyzedFiles.
-            var /** @type {?} */ externalReferences = ngModuleMeta.transitiveModule.directives.map(function (d) { return d.reference; }).concat(ngModuleMeta.transitiveModule.pipes.map(function (d) { return d.reference; }), ngModuleMeta.importedModules.map(function (m) { return m.type.reference; }), ngModuleMeta.exportedModules.map(function (m) { return m.type.reference; }));
+            var /** @type {?} */ externalReferences = ngModuleMeta.transitiveModule.directives.map(function (d) { return d.reference; }).concat(ngModuleMeta.transitiveModule.pipes.map(function (d) { return d.reference; }), ngModuleMeta.importedModules.map(function (m) { return m.type.reference; }), ngModuleMeta.exportedModules.map(function (m) { return m.type.reference; }), _this._externalIdentifierReferences([Identifiers.TemplateRef, Identifiers.ElementRef]));
             var /** @type {?} */ externalReferenceVars = new Map();
             externalReferences.forEach(function (ref, typeIndex) {
                 if (_this._host.isSourceFile(ref.filePath)) {
@@ -53478,6 +53801,25 @@ var AotCompiler = (function () {
         if (outputCtx.statements.length === 0) {
             _createEmptyStub(outputCtx);
         }
+    };
+    /**
+     * @param {?} references
+     * @return {?}
+     */
+    AotCompiler.prototype._externalIdentifierReferences = /**
+     * @param {?} references
+     * @return {?}
+     */
+    function (references) {
+        var /** @type {?} */ result = [];
+        for (var _i = 0, references_1 = references; _i < references_1.length; _i++) {
+            var reference = references_1[_i];
+            var /** @type {?} */ token = createTokenForExternalReference(this._reflector, reference);
+            if (token.identifier) {
+                result.push(token.identifier.reference);
+            }
+        }
+        return result;
     };
     /**
      * @param {?} ctx
@@ -54069,16 +54411,16 @@ function analyzeFile(host, staticSymbolResolver, metadataResolver, fileName) {
                     isNgSymbol = true;
                     pipes.push(symbol);
                 }
-                else if (metadataResolver.isInjectable(symbol)) {
-                    isNgSymbol = true;
-                    injectables.push(symbol);
-                }
-                else {
+                else if (metadataResolver.isNgModule(symbol)) {
                     var /** @type {?} */ ngModule = metadataResolver.getNgModuleMetadata(symbol, false);
                     if (ngModule) {
                         isNgSymbol = true;
                         ngModules.push(ngModule);
                     }
+                }
+                else if (metadataResolver.isInjectable(symbol)) {
+                    isNgSymbol = true;
+                    injectables.push(symbol);
                 }
             }
             if (!isNgSymbol) {
@@ -58587,7 +58929,7 @@ var Extractor = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_operator_share__ = __webpack_require__("../../../../rxjs/_esm5/operator/share.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_Subject__ = __webpack_require__("../../../../rxjs/_esm5/Subject.js");
 /**
- * @license Angular v5.0.1
+ * @license Angular v5.0.3
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -59255,7 +59597,7 @@ var Version = (function () {
 /**
  * \@stable
  */
-var VERSION = new Version('5.0.1');
+var VERSION = new Version('5.0.3');
 
 /**
  * @fileoverview added by tsickle
@@ -62941,7 +63283,7 @@ var NgZone = (function () {
          */
         this.onError = new EventEmitter(false);
         if (typeof Zone == 'undefined') {
-            throw new Error('Angular requires Zone.js prolyfill.');
+            throw new Error("In this configuration Angular requires Zone.js");
         }
         Zone.assertZonePatched();
         var /** @type {?} */ self = /** @type {?} */ ((this));
@@ -75081,7 +75423,7 @@ function transition$$1(stateChangeExpr, steps) {
 
 //# sourceMappingURL=core.js.map
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("../../node_modules/webpack/buildin/global.js")))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("../../../../webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -75167,7 +75509,7 @@ function transition$$1(stateChangeExpr, steps) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_operator_map__ = __webpack_require__("../../../../rxjs/_esm5/operator/map.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_platform_browser__ = __webpack_require__("../../../platform-browser/esm5/platform-browser.js");
 /**
- * @license Angular v5.0.1
+ * @license Angular v5.0.3
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -77471,6 +77813,7 @@ function cleanUpControl(control, dir) {
 function setUpViewChangePipeline(control, dir) {
     /** @type {?} */ ((dir.valueAccessor)).registerOnChange(function (newValue) {
         control._pendingValue = newValue;
+        control._pendingChange = true;
         control._pendingDirty = true;
         if (control.updateOn === 'change')
             updateControl(control, dir);
@@ -77484,7 +77827,7 @@ function setUpViewChangePipeline(control, dir) {
 function setUpBlurPipeline(control, dir) {
     /** @type {?} */ ((dir.valueAccessor)).registerOnTouched(function () {
         control._pendingTouched = true;
-        if (control.updateOn === 'blur')
+        if (control.updateOn === 'blur' && control._pendingChange)
             updateControl(control, dir);
         if (control.updateOn !== 'submit')
             control.markAsTouched();
@@ -77500,6 +77843,7 @@ function updateControl(control, dir) {
     if (control._pendingDirty)
         control.markAsDirty();
     control.setValue(control._pendingValue, { emitModelToViewChange: false });
+    control._pendingChange = false;
 }
 /**
  * @param {?} control
@@ -77604,8 +77948,9 @@ function syncPendingControls(form, directives) {
     form._syncPendingControls();
     directives.forEach(function (dir) {
         var /** @type {?} */ control = /** @type {?} */ (dir.control);
-        if (control.updateOn === 'submit') {
+        if (control.updateOn === 'submit' && control._pendingChange) {
             dir.viewToModelUpdate(control._pendingValue);
+            control._pendingChange = false;
         }
     });
 }
@@ -79213,6 +79558,7 @@ var FormControl = (function (_super) {
         this.markAsPristine(options);
         this.markAsUntouched(options);
         this.setValue(this.value, options);
+        this._pendingChange = false;
     };
     /**
      * @internal
@@ -79323,12 +79669,14 @@ var FormControl = (function (_super) {
      */
     function () {
         if (this.updateOn === 'submit') {
-            this.setValue(this._pendingValue, { onlySelf: true, emitModelToViewChange: false });
             if (this._pendingDirty)
                 this.markAsDirty();
             if (this._pendingTouched)
                 this.markAsTouched();
-            return true;
+            if (this._pendingChange) {
+                this.setValue(this._pendingValue, { onlySelf: true, emitModelToViewChange: false });
+                return true;
+            }
         }
         return false;
     };
@@ -83111,7 +83459,7 @@ var FormBuilder = (function () {
 /**
  * \@stable
  */
-var VERSION = new __WEBPACK_IMPORTED_MODULE_1__angular_core__["_2" /* Version */]('5.0.1');
+var VERSION = new __WEBPACK_IMPORTED_MODULE_1__angular_core__["_2" /* Version */]('5.0.3');
 
 /**
  * @fileoverview added by tsickle
@@ -83345,7 +83693,7 @@ var ReactiveFormsModule = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__ = __webpack_require__("../../../../rxjs/_esm5/Observable.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_platform_browser__ = __webpack_require__("../../../platform-browser/esm5/platform-browser.js");
 /**
- * @license Angular v5.0.1
+ * @license Angular v5.0.3
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -86041,7 +86389,7 @@ var JsonpModule = (function () {
 /**
  * @deprecated use \@angular/common/http instead
  */
-var VERSION = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["_2" /* Version */]('5.0.1');
+var VERSION = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["_2" /* Version */]('5.0.3');
 
 /**
  * @fileoverview added by tsickle
@@ -86107,7 +86455,7 @@ var VERSION = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["_2" /* Version */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_platform_browser__ = __webpack_require__("../../../platform-browser/esm5/platform-browser.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_tslib__ = __webpack_require__("../../../../tslib/tslib.es6.js");
 /**
- * @license Angular v5.0.1
+ * @license Angular v5.0.3
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -86758,7 +87106,7 @@ var CachedResourceLoader = (function (_super) {
 /**
  * \@stable
  */
-var VERSION = new __WEBPACK_IMPORTED_MODULE_1__angular_core__["_2" /* Version */]('5.0.1');
+var VERSION = new __WEBPACK_IMPORTED_MODULE_1__angular_core__["_2" /* Version */]('5.0.3');
 
 /**
  * @fileoverview added by tsickle
@@ -86869,7 +87217,7 @@ var platformBrowserDynamic = Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__[
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_tslib__ = __webpack_require__("../../../../tslib/tslib.es6.js");
 /**
- * @license Angular v5.0.1
+ * @license Angular v5.0.3
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -90016,6 +90364,7 @@ var NATIVE_ADD_LISTENER = 'addEventListener';
 var NATIVE_REMOVE_LISTENER = 'removeEventListener';
 // use the same symbol string which is used in zone.js
 var stopSymbol = '__zone_symbol__propagationStopped';
+var stopMethodSymbol = '__zone_symbol__stopImmediatePropagation';
 var blackListedEvents = (typeof Zone !== 'undefined') && (/** @type {?} */ (Zone))[__symbol__('BLACK_LISTED_EVENTS')];
 var blackListedMap;
 if (blackListedEvents) {
@@ -90056,6 +90405,8 @@ var globalListener = function (event) {
         // itself or others
         var /** @type {?} */ copiedTasks = taskDatas.slice();
         for (var /** @type {?} */ i = 0; i < copiedTasks.length; i++) {
+            // if other listener call event.stopImmediatePropagation
+            // just break
             if ((/** @type {?} */ (event))[stopSymbol] === true) {
                 break;
             }
@@ -90088,16 +90439,20 @@ var DomEventsPlugin = (function (_super) {
         if (!Event || !Event.prototype) {
             return;
         }
-        var /** @type {?} */ symbol = '__zone_symbol__stopImmediatePropagation';
-        if ((/** @type {?} */ (Event.prototype))[symbol]) {
+        if ((/** @type {?} */ (Event.prototype))[stopMethodSymbol]) {
             // already patched by zone.js
             return;
         }
-        (/** @type {?} */ (Event.prototype))[symbol] = Event.prototype.stopImmediatePropagation;
+        var /** @type {?} */ delegate = (/** @type {?} */ (Event.prototype))[stopMethodSymbol] =
+            Event.prototype.stopImmediatePropagation;
         Event.prototype.stopImmediatePropagation = function () {
             if (this) {
                 this[stopSymbol] = true;
             }
+            // should call native delegate in case
+            // in some enviroment part of the application
+            // will not use the patched Event
+            delegate && delegate.apply(this, arguments);
         };
     };
     // This plugin should come last in the list of plugins, because it accepts all
@@ -90203,16 +90558,27 @@ var DomEventsPlugin = (function (_super) {
             // just call native removeEventListener
             return target[NATIVE_REMOVE_LISTENER].apply(target, [eventName, callback, false]);
         }
+        // fix issue 20532, should be able to remove
+        // listener which was added inside of ngZone
+        var /** @type {?} */ found = false;
         for (var /** @type {?} */ i = 0; i < taskDatas.length; i++) {
             // remove listener from taskDatas if the callback equals
             if (taskDatas[i].handler === callback) {
+                found = true;
                 taskDatas.splice(i, 1);
                 break;
             }
         }
-        if (taskDatas.length === 0) {
-            // all listeners are removed, we can remove the globalListener from target
-            underlyingRemove.apply(target, [eventName, globalListener, false]);
+        if (found) {
+            if (taskDatas.length === 0) {
+                // all listeners are removed, we can remove the globalListener from target
+                underlyingRemove.apply(target, [eventName, globalListener, false]);
+            }
+        }
+        else {
+            // not found in taskDatas, the callback may be added inside of ngZone
+            // use native remove listener to remove the calback
+            target[NATIVE_REMOVE_LISTENER].apply(target, [eventName, callback, false]);
         }
     };
     DomEventsPlugin.decorators = [
@@ -92020,7 +92386,7 @@ var By = (function () {
 /**
  * \@stable
  */
-var VERSION = new __WEBPACK_IMPORTED_MODULE_1__angular_core__["_2" /* Version */]('5.0.1');
+var VERSION = new __WEBPACK_IMPORTED_MODULE_1__angular_core__["_2" /* Version */]('5.0.3');
 
 /**
  * @fileoverview added by tsickle
@@ -92063,34 +92429,6 @@ var VERSION = new __WEBPACK_IMPORTED_MODULE_1__angular_core__["_2" /* Version */
 
 
 //# sourceMappingURL=platform-browser.js.map
-
-
-/***/ }),
-
-/***/ "../../node_modules/webpack/buildin/global.js":
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
 
 
 /***/ })
