@@ -966,7 +966,7 @@ module.exports = function (NAME, wrapper, methods, common, IS_MAP, IS_WEAK) {
 /***/ "../../../../core-js/modules/_core.js":
 /***/ (function(module, exports) {
 
-var core = module.exports = { version: '2.5.1' };
+var core = module.exports = { version: '2.5.2' };
 if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 
@@ -3062,7 +3062,7 @@ $export($export.P + $export.F * __webpack_require__("../../../../core-js/modules
     var start = toAbsoluteIndex(begin, len);
     var upTo = toAbsoluteIndex(end, len);
     var size = toLength(upTo - start);
-    var cloned = Array(size);
+    var cloned = new Array(size);
     var i = 0;
     for (; i < size; i++) cloned[i] = klass == 'String'
       ? this.charAt(start + i)
@@ -5191,6 +5191,7 @@ var wksDefine = __webpack_require__("../../../../core-js/modules/_wks-define.js"
 var enumKeys = __webpack_require__("../../../../core-js/modules/_enum-keys.js");
 var isArray = __webpack_require__("../../../../core-js/modules/_is-array.js");
 var anObject = __webpack_require__("../../../../core-js/modules/_an-object.js");
+var isObject = __webpack_require__("../../../../core-js/modules/_is-object.js");
 var toIObject = __webpack_require__("../../../../core-js/modules/_to-iobject.js");
 var toPrimitive = __webpack_require__("../../../../core-js/modules/_to-primitive.js");
 var createDesc = __webpack_require__("../../../../core-js/modules/_property-desc.js");
@@ -5383,14 +5384,13 @@ $JSON && $export($export.S + $export.F * (!USE_NATIVE || $fails(function () {
   return _stringify([S]) != '[null]' || _stringify({ a: S }) != '{}' || _stringify(Object(S)) != '{}';
 })), 'JSON', {
   stringify: function stringify(it) {
-    if (it === undefined || isSymbol(it)) return; // IE8 returns string on undefined
     var args = [it];
     var i = 1;
     var replacer, $replacer;
     while (arguments.length > i) args.push(arguments[i++]);
-    replacer = args[1];
-    if (typeof replacer == 'function') $replacer = replacer;
-    if ($replacer || !isArray(replacer)) replacer = function (key, value) {
+    $replacer = replacer = args[1];
+    if (!isObject(replacer) && it === undefined || isSymbol(it)) return; // IE8 returns string on undefined
+    if (!isArray(replacer)) replacer = function (key, value) {
       if ($replacer) value = $replacer.call(this, key, value);
       if (!isSymbol(value)) return value;
     };
@@ -7812,11 +7812,99 @@ var fromPromise = __WEBPACK_IMPORTED_MODULE_0__PromiseObservable__["a" /* Promis
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return merge; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__operator_merge__ = __webpack_require__("../../../../rxjs/_esm5/operator/merge.js");
-/** PURE_IMPORTS_START .._operator_merge PURE_IMPORTS_END */
+/* harmony export (immutable) */ __webpack_exports__["a"] = merge;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Observable__ = __webpack_require__("../../../../rxjs/_esm5/Observable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ArrayObservable__ = __webpack_require__("../../../../rxjs/_esm5/observable/ArrayObservable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_isScheduler__ = __webpack_require__("../../../../rxjs/_esm5/util/isScheduler.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__operators_mergeAll__ = __webpack_require__("../../../../rxjs/_esm5/operators/mergeAll.js");
+/** PURE_IMPORTS_START .._Observable,._ArrayObservable,.._util_isScheduler,.._operators_mergeAll PURE_IMPORTS_END */
 
-var merge = __WEBPACK_IMPORTED_MODULE_0__operator_merge__["a" /* mergeStatic */];
+
+
+
+/* tslint:enable:max-line-length */
+/**
+ * Creates an output Observable which concurrently emits all values from every
+ * given input Observable.
+ *
+ * <span class="informal">Flattens multiple Observables together by blending
+ * their values into one Observable.</span>
+ *
+ * <img src="./img/merge.png" width="100%">
+ *
+ * `merge` subscribes to each given input Observable (as arguments), and simply
+ * forwards (without doing any transformation) all the values from all the input
+ * Observables to the output Observable. The output Observable only completes
+ * once all input Observables have completed. Any error delivered by an input
+ * Observable will be immediately emitted on the output Observable.
+ *
+ * @example <caption>Merge together two Observables: 1s interval and clicks</caption>
+ * var clicks = Rx.Observable.fromEvent(document, 'click');
+ * var timer = Rx.Observable.interval(1000);
+ * var clicksOrTimer = Rx.Observable.merge(clicks, timer);
+ * clicksOrTimer.subscribe(x => console.log(x));
+ *
+ * // Results in the following:
+ * // timer will emit ascending values, one every second(1000ms) to console
+ * // clicks logs MouseEvents to console everytime the "document" is clicked
+ * // Since the two streams are merged you see these happening
+ * // as they occur.
+ *
+ * @example <caption>Merge together 3 Observables, but only 2 run concurrently</caption>
+ * var timer1 = Rx.Observable.interval(1000).take(10);
+ * var timer2 = Rx.Observable.interval(2000).take(6);
+ * var timer3 = Rx.Observable.interval(500).take(10);
+ * var concurrent = 2; // the argument
+ * var merged = Rx.Observable.merge(timer1, timer2, timer3, concurrent);
+ * merged.subscribe(x => console.log(x));
+ *
+ * // Results in the following:
+ * // - First timer1 and timer2 will run concurrently
+ * // - timer1 will emit a value every 1000ms for 10 iterations
+ * // - timer2 will emit a value every 2000ms for 6 iterations
+ * // - after timer1 hits it's max iteration, timer2 will
+ * //   continue, and timer3 will start to run concurrently with timer2
+ * // - when timer2 hits it's max iteration it terminates, and
+ * //   timer3 will continue to emit a value every 500ms until it is complete
+ *
+ * @see {@link mergeAll}
+ * @see {@link mergeMap}
+ * @see {@link mergeMapTo}
+ * @see {@link mergeScan}
+ *
+ * @param {...ObservableInput} observables Input Observables to merge together.
+ * @param {number} [concurrent=Number.POSITIVE_INFINITY] Maximum number of input
+ * Observables being subscribed to concurrently.
+ * @param {Scheduler} [scheduler=null] The IScheduler to use for managing
+ * concurrency of input Observables.
+ * @return {Observable} an Observable that emits items that are the result of
+ * every input Observable.
+ * @static true
+ * @name merge
+ * @owner Observable
+ */
+function merge() {
+    var observables = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        observables[_i - 0] = arguments[_i];
+    }
+    var concurrent = Number.POSITIVE_INFINITY;
+    var scheduler = null;
+    var last = observables[observables.length - 1];
+    if (Object(__WEBPACK_IMPORTED_MODULE_2__util_isScheduler__["a" /* isScheduler */])(last)) {
+        scheduler = observables.pop();
+        if (observables.length > 1 && typeof observables[observables.length - 1] === 'number') {
+            concurrent = observables.pop();
+        }
+    }
+    else if (typeof last === 'number') {
+        concurrent = observables.pop();
+    }
+    if (scheduler === null && observables.length === 1 && observables[0] instanceof __WEBPACK_IMPORTED_MODULE_0__Observable__["a" /* Observable */]) {
+        return observables[0];
+    }
+    return Object(__WEBPACK_IMPORTED_MODULE_3__operators_mergeAll__["a" /* mergeAll */])(concurrent)(new __WEBPACK_IMPORTED_MODULE_1__ArrayObservable__["a" /* ArrayObservable */](observables, scheduler));
+}
 //# sourceMappingURL=merge.js.map 
 
 
@@ -7867,75 +7955,6 @@ function map(project, thisArg) {
     return Object(__WEBPACK_IMPORTED_MODULE_0__operators_map__["a" /* map */])(project, thisArg)(this);
 }
 //# sourceMappingURL=map.js.map 
-
-
-/***/ }),
-
-/***/ "../../../../rxjs/_esm5/operator/merge.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export merge */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__operators_merge__ = __webpack_require__("../../../../rxjs/_esm5/operators/merge.js");
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__operators_merge__["b"]; });
-/** PURE_IMPORTS_START .._operators_merge PURE_IMPORTS_END */
-
-
-/* tslint:enable:max-line-length */
-/**
- * Creates an output Observable which concurrently emits all values from every
- * given input Observable.
- *
- * <span class="informal">Flattens multiple Observables together by blending
- * their values into one Observable.</span>
- *
- * <img src="./img/merge.png" width="100%">
- *
- * `merge` subscribes to each given input Observable (either the source or an
- * Observable given as argument), and simply forwards (without doing any
- * transformation) all the values from all the input Observables to the output
- * Observable. The output Observable only completes once all input Observables
- * have completed. Any error delivered by an input Observable will be immediately
- * emitted on the output Observable.
- *
- * @example <caption>Merge together two Observables: 1s interval and clicks</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var timer = Rx.Observable.interval(1000);
- * var clicksOrTimer = clicks.merge(timer);
- * clicksOrTimer.subscribe(x => console.log(x));
- *
- * @example <caption>Merge together 3 Observables, but only 2 run concurrently</caption>
- * var timer1 = Rx.Observable.interval(1000).take(10);
- * var timer2 = Rx.Observable.interval(2000).take(6);
- * var timer3 = Rx.Observable.interval(500).take(10);
- * var concurrent = 2; // the argument
- * var merged = timer1.merge(timer2, timer3, concurrent);
- * merged.subscribe(x => console.log(x));
- *
- * @see {@link mergeAll}
- * @see {@link mergeMap}
- * @see {@link mergeMapTo}
- * @see {@link mergeScan}
- *
- * @param {ObservableInput} other An input Observable to merge with the source
- * Observable. More than one input Observables may be given as argument.
- * @param {number} [concurrent=Number.POSITIVE_INFINITY] Maximum number of input
- * Observables being subscribed to concurrently.
- * @param {Scheduler} [scheduler=null] The IScheduler to use for managing
- * concurrency of input Observables.
- * @return {Observable} An Observable that emits items that are the result of
- * every input Observable.
- * @method merge
- * @owner Observable
- */
-function merge() {
-    var observables = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        observables[_i - 0] = arguments[_i];
-    }
-    return __WEBPACK_IMPORTED_MODULE_0__operators_merge__["a" /* merge */].apply(void 0, observables)(this);
-}
-//# sourceMappingURL=merge.js.map 
 
 
 /***/ }),
@@ -8069,117 +8088,6 @@ var MapSubscriber = /*@__PURE__*/ (/*@__PURE__*/ function (_super) {
     return MapSubscriber;
 }(__WEBPACK_IMPORTED_MODULE_0__Subscriber__["a" /* Subscriber */]));
 //# sourceMappingURL=map.js.map 
-
-
-/***/ }),
-
-/***/ "../../../../rxjs/_esm5/operators/merge.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = merge;
-/* harmony export (immutable) */ __webpack_exports__["b"] = mergeStatic;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Observable__ = __webpack_require__("../../../../rxjs/_esm5/Observable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__observable_ArrayObservable__ = __webpack_require__("../../../../rxjs/_esm5/observable/ArrayObservable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mergeAll__ = __webpack_require__("../../../../rxjs/_esm5/operators/mergeAll.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_isScheduler__ = __webpack_require__("../../../../rxjs/_esm5/util/isScheduler.js");
-/** PURE_IMPORTS_START .._Observable,.._observable_ArrayObservable,._mergeAll,.._util_isScheduler PURE_IMPORTS_END */
-
-
-
-
-/* tslint:enable:max-line-length */
-function merge() {
-    var observables = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        observables[_i - 0] = arguments[_i];
-    }
-    return function (source) { return source.lift.call(mergeStatic.apply(void 0, [source].concat(observables))); };
-}
-/* tslint:enable:max-line-length */
-/**
- * Creates an output Observable which concurrently emits all values from every
- * given input Observable.
- *
- * <span class="informal">Flattens multiple Observables together by blending
- * their values into one Observable.</span>
- *
- * <img src="./img/merge.png" width="100%">
- *
- * `merge` subscribes to each given input Observable (as arguments), and simply
- * forwards (without doing any transformation) all the values from all the input
- * Observables to the output Observable. The output Observable only completes
- * once all input Observables have completed. Any error delivered by an input
- * Observable will be immediately emitted on the output Observable.
- *
- * @example <caption>Merge together two Observables: 1s interval and clicks</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var timer = Rx.Observable.interval(1000);
- * var clicksOrTimer = Rx.Observable.merge(clicks, timer);
- * clicksOrTimer.subscribe(x => console.log(x));
- *
- * // Results in the following:
- * // timer will emit ascending values, one every second(1000ms) to console
- * // clicks logs MouseEvents to console everytime the "document" is clicked
- * // Since the two streams are merged you see these happening
- * // as they occur.
- *
- * @example <caption>Merge together 3 Observables, but only 2 run concurrently</caption>
- * var timer1 = Rx.Observable.interval(1000).take(10);
- * var timer2 = Rx.Observable.interval(2000).take(6);
- * var timer3 = Rx.Observable.interval(500).take(10);
- * var concurrent = 2; // the argument
- * var merged = Rx.Observable.merge(timer1, timer2, timer3, concurrent);
- * merged.subscribe(x => console.log(x));
- *
- * // Results in the following:
- * // - First timer1 and timer2 will run concurrently
- * // - timer1 will emit a value every 1000ms for 10 iterations
- * // - timer2 will emit a value every 2000ms for 6 iterations
- * // - after timer1 hits it's max iteration, timer2 will
- * //   continue, and timer3 will start to run concurrently with timer2
- * // - when timer2 hits it's max iteration it terminates, and
- * //   timer3 will continue to emit a value every 500ms until it is complete
- *
- * @see {@link mergeAll}
- * @see {@link mergeMap}
- * @see {@link mergeMapTo}
- * @see {@link mergeScan}
- *
- * @param {...ObservableInput} observables Input Observables to merge together.
- * @param {number} [concurrent=Number.POSITIVE_INFINITY] Maximum number of input
- * Observables being subscribed to concurrently.
- * @param {Scheduler} [scheduler=null] The IScheduler to use for managing
- * concurrency of input Observables.
- * @return {Observable} an Observable that emits items that are the result of
- * every input Observable.
- * @static true
- * @name merge
- * @owner Observable
- */
-function mergeStatic() {
-    var observables = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        observables[_i - 0] = arguments[_i];
-    }
-    var concurrent = Number.POSITIVE_INFINITY;
-    var scheduler = null;
-    var last = observables[observables.length - 1];
-    if (Object(__WEBPACK_IMPORTED_MODULE_3__util_isScheduler__["a" /* isScheduler */])(last)) {
-        scheduler = observables.pop();
-        if (observables.length > 1 && typeof observables[observables.length - 1] === 'number') {
-            concurrent = observables.pop();
-        }
-    }
-    else if (typeof last === 'number') {
-        concurrent = observables.pop();
-    }
-    if (scheduler === null && observables.length === 1 && observables[0] instanceof __WEBPACK_IMPORTED_MODULE_0__Observable__["a" /* Observable */]) {
-        return observables[0];
-    }
-    return Object(__WEBPACK_IMPORTED_MODULE_2__mergeAll__["a" /* mergeAll */])(concurrent)(new __WEBPACK_IMPORTED_MODULE_1__observable_ArrayObservable__["a" /* ArrayObservable */](observables, scheduler));
-}
-//# sourceMappingURL=merge.js.map 
 
 
 /***/ }),
@@ -9428,6 +9336,7 @@ var AllFieldCollectable = (function () {
             return true;
         return false;
     };
+    AllFieldCollectable.instance = new AllFieldCollectable();
     return AllFieldCollectable;
 }());
 exports.AllFieldCollectable = AllFieldCollectable;
@@ -9486,6 +9395,7 @@ var AllFieldHashable = (function () {
         var tmp = JSON.stringify(o);
         return Collections_1.Collections.getHashCodeForString(tmp);
     };
+    AllFieldHashable.instance = new AllFieldHashable();
     return AllFieldHashable;
 }());
 exports.AllFieldHashable = AllFieldHashable;
@@ -9506,9 +9416,11 @@ exports.AllFieldHashable = AllFieldHashable;
  * found in the LICENSE file at https://github.com/larrydiamond/typescriptcollectionsframework/LICENSE
  */
 Object.defineProperty(exports, "__esModule", { value: true });
+var AllFieldCollectable_1 = __webpack_require__("../../../../typescriptcollectionsframework/dist/src/AllFieldCollectable.js");
 var BasicIteratorResult_1 = __webpack_require__("../../../../typescriptcollectionsframework/dist/src/BasicIteratorResult.js");
 var ArrayList = (function () {
     function ArrayList(iEquals, initialElements) {
+        if (iEquals === void 0) { iEquals = AllFieldCollectable_1.AllFieldCollectable.instance; }
         this.initialElements = initialElements;
         this.elements = null;
         this.sizeValue = 0;
@@ -9656,6 +9568,7 @@ var ArrayList = (function () {
      * Removes all of the elements from this list. The list will be empty after this call returns.
      */
     ArrayList.prototype.clear = function () {
+        this.elements.fill(null); // Help the garbage collector
         this.elements = new Array();
         this.sizeValue = 0;
     };
@@ -10054,7 +9967,6 @@ exports.BasicMapEntry = BasicMapEntry;
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 var AllFieldCollectable_1 = __webpack_require__("../../../../typescriptcollectionsframework/dist/src/AllFieldCollectable.js");
-var AllFieldHashable_1 = __webpack_require__("../../../../typescriptcollectionsframework/dist/src/AllFieldHashable.js");
 var ArrayList_1 = __webpack_require__("../../../../typescriptcollectionsframework/dist/src/ArrayList.js");
 var HashMap_1 = __webpack_require__("../../../../typescriptcollectionsframework/dist/src/HashMap.js");
 var HashSet_1 = __webpack_require__("../../../../typescriptcollectionsframework/dist/src/HashSet.js");
@@ -10174,15 +10086,15 @@ var Collections = (function () {
         return list.immutableList();
     };
     Collections.emptyList = function () {
-        var list = new ArrayList_1.ArrayList(new AllFieldCollectable_1.AllFieldCollectable());
+        var list = new ArrayList_1.ArrayList();
         return list.immutableList();
     };
     Collections.emptySet = function () {
-        var tmp = new HashSet_1.HashSet(new AllFieldHashable_1.AllFieldHashable());
+        var tmp = new HashSet_1.HashSet();
         return tmp.immutableSet();
     };
     Collections.emptyMap = function () {
-        var tmp = new HashMap_1.HashMap(new AllFieldHashable_1.AllFieldHashable());
+        var tmp = new HashMap_1.HashMap();
         return tmp.immutableMap();
     };
     /**
@@ -10229,12 +10141,14 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+var AllFieldHashable_1 = __webpack_require__("../../../../typescriptcollectionsframework/dist/src/AllFieldHashable.js");
 var ArrayList_1 = __webpack_require__("../../../../typescriptcollectionsframework/dist/src/ArrayList.js");
 var BasicIteratorResult_1 = __webpack_require__("../../../../typescriptcollectionsframework/dist/src/BasicIteratorResult.js");
 var BasicMapEntry_1 = __webpack_require__("../../../../typescriptcollectionsframework/dist/src/BasicMapEntry.js");
 var LinkedList_1 = __webpack_require__("../../../../typescriptcollectionsframework/dist/src/LinkedList.js");
 var HashMap = (function () {
     function HashMap(iHash, initialElements, iInitialCapacity, iLoadFactor) {
+        if (iHash === void 0) { iHash = AllFieldHashable_1.AllFieldHashable.instance; }
         if (initialElements === void 0) { initialElements = null; }
         if (iInitialCapacity === void 0) { iInitialCapacity = 20; }
         if (iLoadFactor === void 0) { iLoadFactor = 0.75; }
@@ -10408,6 +10322,7 @@ var HashMap = (function () {
      * Removes all of the mappings from this map. The map will be empty after this call returns.
      */
     HashMap.prototype.clear = function () {
+        this.data.clear();
         this.data = new ArrayList_1.ArrayList(this.ListMapEntryMethods);
         this.elementCount = 0;
     };
@@ -10795,10 +10710,12 @@ exports.HashMapEntrySetIterator = HashMapEntrySetIterator;
 * found in the LICENSE file at https://github.com/larrydiamond/typescriptcollectionsframework/LICENSE
 */
 Object.defineProperty(exports, "__esModule", { value: true });
+var AllFieldHashable_1 = __webpack_require__("../../../../typescriptcollectionsframework/dist/src/AllFieldHashable.js");
 var BasicIteratorResult_1 = __webpack_require__("../../../../typescriptcollectionsframework/dist/src/BasicIteratorResult.js");
 var HashMap_1 = __webpack_require__("../../../../typescriptcollectionsframework/dist/src/HashMap.js");
 var HashSet = (function () {
     function HashSet(iHash, initialElements, iInitialCapacity, iLoadFactor) {
+        if (iHash === void 0) { iHash = AllFieldHashable_1.AllFieldHashable.instance; }
         if (initialElements === void 0) { initialElements = null; }
         if (iInitialCapacity === void 0) { iInitialCapacity = 20; }
         if (iLoadFactor === void 0) { iLoadFactor = 0.75; }
@@ -11017,9 +10934,11 @@ exports.HashSetIterator = HashSetIterator;
 * found in the LICENSE file at https://github.com/larrydiamond/typescriptcollectionsframework/LICENSE
 */
 Object.defineProperty(exports, "__esModule", { value: true });
+var AllFieldCollectable_1 = __webpack_require__("../../../../typescriptcollectionsframework/dist/src/AllFieldCollectable.js");
 var BasicIteratorResult_1 = __webpack_require__("../../../../typescriptcollectionsframework/dist/src/BasicIteratorResult.js");
 var LinkedList = (function () {
     function LinkedList(iEquals, initialElements) {
+        if (iEquals === void 0) { iEquals = AllFieldCollectable_1.AllFieldCollectable.instance; }
         this.initialElements = initialElements;
         this.equality = iEquals;
         this.firstNode = null;
@@ -11680,60 +11599,71 @@ exports.LinkedListIterator = LinkedListIterator;
 
 "use strict";
 
-/**
-* @license
-* Copyright Larry Diamond 2017 All Rights Reserved.
-*
-* Use of this source code is governed by an MIT-style license that can be
-* found in the LICENSE file at https://github.com/larrydiamond/typescriptcollectionsframework/LICENSE
-*/
 Object.defineProperty(exports, "__esModule", { value: true });
+var TreeSet_1 = __webpack_require__("../../../../typescriptcollectionsframework/dist/src/TreeSet.js");
 var PriorityQueue = (function () {
-    function PriorityQueue() {
+    function PriorityQueue(iComparator, initialElements) {
+        this.initialElements = initialElements;
+        this.pQueue = new TreeSet_1.TreeSet(iComparator);
+        if ((initialElements !== null) && (initialElements !== undefined)) {
+            for (var iter = initialElements.iterator(); iter.hasNext();) {
+                var t = iter.next();
+                this.add(t);
+            }
+        }
     }
-    // A very talented volunteer stepped up to write PriorityQueue.   Im preparing some files for him.   Thank you very much!
     /**
     * Inserts the specified element into this queue if it is possible to do so immediately without violating capacity restrictions, returning true upon success
     * and returning false if no space is currently available or if the implementation does not permit duplicates and already contains the specified element
     */
     PriorityQueue.prototype.add = function (k) {
-        return undefined;
+        return this.pQueue.add(k);
     };
     /**
     * Inserts the specified element into this queue if it is possible to do so immediately without violating capacity restrictions.
     */
     PriorityQueue.prototype.offer = function (k) {
-        return undefined;
+        return this.pQueue.add(k);
     };
     /*
     * Retrieves and removes the head of this queue, or returns null if this queue is empty.
     */
     PriorityQueue.prototype.poll = function () {
-        return undefined;
+        if (this.pQueue.isEmpty())
+            return null;
+        return this.pQueue.pollFirst();
     };
     /*
     * Retrieves and removes the head of this queue. This method differs from poll only in that it returns undefined if this queue is empty
     */
     PriorityQueue.prototype.removeQueue = function () {
-        return undefined;
+        if (this.pQueue.isEmpty())
+            return undefined;
+        return this.pQueue.pollFirst();
     };
     /*
     * Retrieves, but does not remove, the head of this queue, or returns null if this queue is empty.
     */
     PriorityQueue.prototype.peek = function () {
-        return undefined;
+        if (this.pQueue.isEmpty())
+            return null;
+        return this.pQueue.first();
     };
     /*
     * Retrieves, but does not remove, the head of this queue. This method differs from peek only in that it returns undefined if this queue is empty.
     */
     PriorityQueue.prototype.element = function () {
-        return undefined;
+        if (this.pQueue.isEmpty())
+            return undefined;
+        return this.pQueue.first();
     };
     /**
     * Removes all of the elements from this collection. The collection be empty after this call returns.
     */
     PriorityQueue.prototype.clear = function () {
-        return;
+        if (this.pQueue.isEmpty())
+            return;
+        this.pQueue.clear();
     };
     /**
     * Removes the first occurrence of the specified element from this collection, if it is present. If the list does not contain the element, it is unchanged. More formally, removes the element with the lowest index i such that (o==null ? get(i)==null : o.equals(get(i))) (if such an element exists). Returns true if this list contained the specified element (or equivalently, if this list changed as a result of the call).
@@ -11741,49 +11671,49 @@ var PriorityQueue = (function () {
     * @return {K} true if this collection contained the specified element
     */
     PriorityQueue.prototype.remove = function (k) {
-        return undefined;
+        return this.pQueue.remove(k);
     };
     /**
     * Returns an ImmutableCollection backed by this Collection
     */
     PriorityQueue.prototype.immutableCollection = function () {
-        return this;
+        return this.pQueue.immutableCollection();
     };
     /**
     * Returns the number of elements in this collection.
     * @return {number} the number of elements in this collection
     */
     PriorityQueue.prototype.size = function () {
-        return undefined;
+        return this.pQueue.size();
     };
     /**
     * Returns true if this collection contains no elements.
     * @return {boolean} true if this collection contains no elements
     */
     PriorityQueue.prototype.isEmpty = function () {
-        return undefined;
+        return this.pQueue.isEmpty();
     };
     /**
     * Returns a Java style iterator
     * @return {JIterator<K>} the Java style iterator
     */
     PriorityQueue.prototype.iterator = function () {
-        return undefined;
+        return this.pQueue.iterator();
     };
     /**
-     * Returns a TypeScript style iterator
-     * @return {Iterator<K>} the TypeScript style iterator
-     */
+    * Returns a TypeScript style iterator
+    * @return {Iterator<K>} the TypeScript style iterator
+    */
     PriorityQueue.prototype[Symbol.iterator] = function () {
-        return undefined;
+        return this.pQueue[Symbol.iterator]();
     };
     /**
-     * Returns true if this collection contains the specified element.
-     * @param {K} t element whose presence in this collection is to be tested
-     * @return {boolean} true if this collection contains the specified element
-     */
+    * Returns true if this collection contains the specified element.
+    * @param {K} t element whose presence in this collection is to be tested
+    * @return {boolean} true if this collection contains the specified element
+    */
     PriorityQueue.prototype.contains = function (k) {
-        return undefined;
+        return this.pQueue.contains(k);
     };
     return PriorityQueue;
 }());
@@ -13307,6 +13237,13 @@ var TreeMap = (function () {
      * Removes all of the mappings from this map. The map will be empty after this call returns.
      */
     TreeMap.prototype.clear = function () {
+        // if only this was enough :(
+        // JavaScript memory management has problems when two objects have pointers to one another
+        // In that case, the mark and sweep garbage collector is unable to collect either object
+        // and we wind up with out of memory errors :(
+        while ((this.topNode !== null) && (this.topNode !== undefined)) {
+            this.remove(this.topNode.getKey());
+        }
         this.topNode = null;
     };
     /**
@@ -13634,6 +13571,9 @@ var TreeMap = (function () {
                 right.setParentNode(parentOfRight);
             }
         }
+        tmp.setParentNode(null); // clear pointers to help memory collection
+        tmp.setLeftNode(null); // clear pointers to help memory collection
+        tmp.setRightNode(null); // clear pointers to help memory collection
         return tmp.getValue();
     };
     /**
@@ -14207,9 +14147,9 @@ var TreeSet = (function () {
     TreeSet.prototype.add = function (element) {
         var tmp = this.datastore.put(element, 1);
         if (tmp === null) {
-            return false;
+            return true;
         }
-        return true;
+        return false;
     };
     /**
     * Returns the number of elements in this set (its cardinality).
@@ -14376,7 +14316,7 @@ var TreeSetJIterator = (function () {
     TreeSetJIterator.prototype.hasNext = function () {
         if (this.location === undefined) {
             var first = this.set.first();
-            if (first === undefined)
+            if ((first === undefined) || (first === null))
                 return false;
             return true;
         }
@@ -14391,7 +14331,7 @@ var TreeSetJIterator = (function () {
         }
     };
     TreeSetJIterator.prototype.next = function () {
-        if (this.location === undefined) {
+        if ((this.location === undefined) || (this.location === null)) {
             var first = this.set.first();
             if (first === undefined) {
                 return null;
