@@ -746,7 +746,7 @@ Source code for this app is located at <a href="https://github.com/larrydiamond/
   this.hsMapData.remove ("ZZZZZ", "Not there anymore");<br>
   for (let iter:JIterator&lt;MapEntry&lt;string, string> = this.hsMapData.entrySet().iterator(); iter.hasNext(); ) &#123; <br>
   &nbsp;&nbsp;let psp:MapEntry&lt;string, string> = iter.next();<br>
-  &nbsp;&nbsp;console.log (psp.getKey() - psp.getEntry());<br>
+  &nbsp;&nbsp;console.log (psp.getKey() - psp.getValue());<br>
   &#125;<br>
   <br>
   How to iterate over a HashMap in the HTML template for an Angular Component:<br>
@@ -789,7 +789,7 @@ Source code for this app is located at <a href="https://github.com/larrydiamond/
   this.tsMapData.remove ("ZZZZZ", "Not there anymore");<br>
   for (let iter:JIterator&lt;MapEntry&lt;string, string> = this.tsMapData.entrySet().iterator(); iter.hasNext(); ) &#123; <br>
   &nbsp;&nbsp;let psp:MapEntry&lt;string, string> = iter.next();<br>
-  &nbsp;&nbsp;console.log (psp.getKey() - psp.getEntry());<br>
+  &nbsp;&nbsp;console.log (psp.getKey() - psp.getValue());<br>
   &#125;<br>
   <br>
   How to iterate over a TreeMap in the HTML template for an Angular Component:<br>
@@ -832,7 +832,7 @@ Source code for this app is located at <a href="https://github.com/larrydiamond/
   this.slMapData.remove ("ZZZZZ", "Not there anymore");<br>
   for (let iter:JIterator&lt;MapEntry&lt;string, string> = this.slMapData.entrySet().iterator(); iter.hasNext(); ) &#123; <br>
   &nbsp;&nbsp;let psp:MapEntry&lt;string, string> = iter.next();<br>
-  &nbsp;&nbsp;console.log (psp.getKey() - psp.getEntry());<br>
+  &nbsp;&nbsp;console.log (psp.getKey() - psp.getValue());<br>
   &#125;<br>
   <br>
   How to iterate over a SkipListMap in the HTML template for an Angular Component:<br>
